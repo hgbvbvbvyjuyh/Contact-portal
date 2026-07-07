@@ -142,7 +142,13 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       }
 
       if (data) {
-        setProposal(data as Proposal);
+        // If data has a 'content' field (normalized schema), merge it with the top-level fields
+        // to match the expected Proposal interface structure.
+        const normalizedProposal = data.content
+          ? { ...data, ...data.content } as Proposal
+          : data as Proposal;
+
+        setProposal(normalizedProposal);
         // Also update brand config if agency info is present
         if (data.agency?.agencyName) {
           updateBrandConfig({
