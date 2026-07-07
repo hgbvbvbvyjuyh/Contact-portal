@@ -22,7 +22,7 @@ export function PaymentSummary({
   isPaid,
   simulatedStatus = 'Pending'
 }: PaymentSummaryProps) {
-  const projectName = proposal?.project?.projectName || 'Founding Partner Program';
+  const projectName = proposal?.projectName || proposal?.project?.projectName || 'Founding Partner Program';
 
   // Format helper for USD currency
   const formatCurrency = (val: number) => {

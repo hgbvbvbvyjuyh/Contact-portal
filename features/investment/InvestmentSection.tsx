@@ -29,8 +29,9 @@ interface InvestmentSectionProps {
 }
 
 export function InvestmentSection({ onNext, onBack }: InvestmentSectionProps) {
-  const { placeholderProposal } = useTheme();
-  const proposal = placeholderProposal;
+  const { proposal } = useTheme();
+
+  if (!proposal) return null;
 
   const totalInvestment = proposal?.pricing?.total || 7000.00;
   const depositDue = proposal?.pricing?.deposit || 3500.00;

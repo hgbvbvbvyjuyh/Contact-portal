@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { motion } from 'motion/react';
-import { PLACEHOLDER_PROPOSAL } from '@/constants/placeholderData';
+import { useTheme } from '@/components/ThemeProvider';
 import { Button } from '@/components/Button';
 import { Divider } from '@/components/Layout';
 import { H2, H3 } from '@/components/Typography';
@@ -27,8 +27,12 @@ interface ProjectOverviewSectionProps {
 }
 
 export function ProjectOverviewSection({ onNext, onBack }: ProjectOverviewSectionProps) {
-  const clientCompany = PLACEHOLDER_PROPOSAL.client.company || 'your business';
-  const projectName = PLACEHOLDER_PROPOSAL.project.projectName || 'this project';
+  const { proposal } = useTheme();
+
+  if (!proposal) return null;
+
+  const clientCompany = proposal.client.company || 'your business';
+  const projectName = proposal.projectName || proposal.project?.projectName || 'this project';
 
   // Section 1: Current Situation Copy
   const situationParagraphs = [

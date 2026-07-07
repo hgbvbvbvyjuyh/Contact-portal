@@ -37,8 +37,10 @@ export function PaymentMethodCard({
   onPay,
   onStatusChange
 }: PaymentMethodCardProps) {
-  const { placeholderProposal } = useTheme();
-  const proposal = placeholderProposal;
+  const { proposal } = useTheme();
+
+  if (!proposal) return null;
+
   const [isExpanded, setIsExpanded] = useState(false);
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
   const [toast, setToast] = useState<{ message: string; description: string; variant?: 'success' | 'info' | 'error' } | null>(null);

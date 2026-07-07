@@ -5,6 +5,7 @@
 
 import React from 'react';
 import { motion } from 'motion/react';
+import { useTheme } from '@/components/ThemeProvider';
 import { Card } from '@/components/Card';
 import { Button } from '@/components/Button';
 import { Divider } from '@/components/Layout';
@@ -25,6 +26,10 @@ interface LegalSectionProps {
 }
 
 export function LegalSection({ onNext, onBack }: LegalSectionProps) {
+  const { proposal } = useTheme();
+
+  if (!proposal) return null;
+
   // Stagger animation definitions
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -80,7 +85,7 @@ export function LegalSection({ onNext, onBack }: LegalSectionProps) {
       badgeColor: 'bg-indigo-500/10 text-indigo-600 border-indigo-500/20',
       icon: <Handshake className="h-5 w-5" />,
       iconColor: 'bg-indigo-500/10 text-indigo-600 border-indigo-500/15',
-      content: 'If a disagreement arises, both parties agree to first work together in good faith to find a fair solution through open discussion. If the issue cannot be resolved, both parties agree to settle the matter through arbitration in Wilmington, Delaware, unless another arrangement is agreed to in writing.'
+      content: proposal.legal?.disputeResolution || 'If a disagreement arises, both parties agree to first work together in good faith to find a fair solution through open discussion. If the issue cannot be resolved, both parties agree to settle the matter through arbitration in Wilmington, Delaware, unless another arrangement is agreed to in writing.'
     }
   ];
 

@@ -157,9 +157,10 @@ interface TimelineSectionProps {
 }
 
 export function TimelineSection({ onNext, onBack }: TimelineSectionProps) {
-  const { placeholderProposal } = useTheme();
+  const { proposal } = useTheme();
 
-  const proposal = placeholderProposal;
+  if (!proposal) return null;
+
   const executionTimeline = proposal?.execution?.timeline || proposal?.timeline || [];
 
   return (

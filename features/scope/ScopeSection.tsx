@@ -203,9 +203,10 @@ interface ScopeSectionProps {
 
 export function ScopeSection({ onNext, onBack }: ScopeSectionProps) {
   // Pull from our static Proposal context using ThemeProvider's placement or importing placeholder MOCK_PROPOSAL directly
-  const { placeholderProposal } = useTheme();
+  const { proposal } = useTheme();
   
-  const proposal = placeholderProposal;
+  if (!proposal) return null;
+
   const scopeItems = proposal?.scope || [];
   const exclusionsItems = proposal?.exclusions || [];
 

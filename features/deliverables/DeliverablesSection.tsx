@@ -116,9 +116,10 @@ interface DeliverablesSectionProps {
 
 export function DeliverablesSection({ onNext, onBack }: DeliverablesSectionProps) {
   // Fetch dynamic proposal values from ThemeProvider context
-  const { placeholderProposal } = useTheme();
+  const { proposal } = useTheme();
 
-  const proposal = placeholderProposal;
+  if (!proposal) return null;
+
   const deliverablesList = proposal?.deliverables || [];
 
   return (

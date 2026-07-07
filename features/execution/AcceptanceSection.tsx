@@ -40,8 +40,10 @@ export function AcceptanceSection({
   onSign,
   onBack,
 }: AcceptanceSectionProps) {
-  const { placeholderProposal } = useTheme();
-  const proposal = placeholderProposal;
+  const { proposal } = useTheme();
+
+  if (!proposal) return null;
+
   const signatureData = proposal?.signature;
 
   // Track sub-step within Acceptance & E-Signature tab
