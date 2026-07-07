@@ -1,0 +1,222 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Proposal Content Schema",
+  "description": "The shared data contract for n8n, Supabase, and the Client Proposal Portal.",
+  "type": "object",
+  "required": [
+    "proposalId",
+    "version",
+    "status",
+    "state",
+    "agency",
+    "client",
+    "project",
+    "scope",
+    "deliverables",
+    "timeline",
+    "pricing",
+    "legal",
+    "success"
+  ],
+  "properties": {
+    "proposalId": { "type": "string", "description": "Unique identifier for the proposal." },
+    "id": { "type": "string", "description": "Backward compatibility alias for proposalId." },
+    "version": { "type": "string", "default": "1.0.0" },
+    "createdAt": { "type": "string", "format": "date-time" },
+    "updatedAt": { "type": "string", "format": "date-time" },
+    "date": { "type": "string", "description": "Readable date displayed on the cover." },
+    "status": {
+      "type": "string",
+      "enum": ["DRAFT", "SENT", "VIEWED", "SIGNED", "PAID", "COMPLETED"],
+      "default": "SENT"
+    },
+    "state": {
+      "type": "string",
+      "enum": ["PROPOSAL_REVIEW", "READY_TO_SIGN", "SIGNED", "WAITING_PAYMENT", "PAID"],
+      "default": "PROPOSAL_REVIEW"
+    },
+    "projectName": { "type": "string", "description": "Root-level project name for easy access." },
+    "agency": {
+      "type": "object",
+      "required": ["agencyName", "email"],
+      "properties": {
+        "agencyName": { "type": "string" },
+        "logo": { "type": "string", "description": "Text or URL for the agency logo." },
+        "website": { "type": "string", "format": "uri" },
+        "email": { "type": "string", "format": "email" },
+        "phone": { "type": "string" },
+        "address": { "type": "string" }
+      }
+    },
+    "client": {
+      "type": "object",
+      "required": ["company", "email"],
+      "properties": {
+        "id": { "type": "string" },
+        "company": { "type": "string" },
+        "name": { "type": "string", "description": "Primary contact person." },
+        "email": { "type": "string", "format": "email" },
+        "phone": { "type": "string" },
+        "address": { "type": "string" }
+      }
+    },
+    "project": {
+      "type": "object",
+      "required": ["projectName", "summary"],
+      "properties": {
+        "projectName": { "type": "string" },
+        "summary": { "type": "string" },
+        "overview": { "type": "string" },
+        "estimatedDuration": { "type": "string" },
+        "estimatedReadingTime": { "type": "string", "default": "8 min read" },
+        "goals": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["text"],
+            "properties": {
+              "text": { "type": "string" },
+              "description": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "scope": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "description", "status"],
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "status": { "type": "string", "enum": ["In-scope", "Out-of-scope", "Active"] }
+        }
+      }
+    },
+    "exclusions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "description"],
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "reason": { "type": "string" }
+        }
+      }
+    },
+    "deliverables": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "description", "deliveryFormat", "estimatedDelivery"],
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "deliveryFormat": { "type": "string" },
+          "estimatedDelivery": { "type": "string" }
+        }
+      }
+    },
+    "timeline": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "dueDate", "status"],
+        "properties": {
+          "id": { "type": "string" },
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "dueDate": { "type": "string" },
+          "status": { "type": "string", "enum": ["UPCOMING", "CURRENT", "COMPLETED", "LOCKED"] }
+        }
+      }
+    },
+    "collaboration": {
+      "type": "object",
+      "required": ["agencyResponsibilities", "clientResponsibilities"],
+      "properties": {
+        "agencyResponsibilities": { "type": "array", "items": { "type": "string" } },
+        "clientResponsibilities": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "revisions": {
+      "type": "object",
+      "required": ["includedRevisions"],
+      "properties": {
+        "includedRevisions": { "type": "integer", "default": 3 },
+        "additionalRevisionPricing": { "type": "string" },
+        "responseTime": { "type": "string" }
+      }
+    },
+    "pricing": {
+      "type": "object",
+      "required": ["total", "deposit", "paymentSchedule"],
+      "properties": {
+        "currency": { "type": "string", "default": "USD" },
+        "total": { "type": "number" },
+        "deposit": { "type": "number" },
+        "remainingBalance": { "type": "number" },
+        "taxes": { "type": "number", "default": 0 },
+        "discounts": { "type": "number", "default": 0 },
+        "paymentSchedule": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "milestoneName", "amount", "status"],
+            "properties": {
+              "id": { "type": "string" },
+              "milestoneName": { "type": "string" },
+              "amount": { "type": "number" },
+              "dueDate": { "type": "string" },
+              "status": { "type": "string", "enum": ["PENDING", "PAID", "FAILED"] }
+            }
+          }
+        }
+      }
+    },
+    "legal": {
+      "type": "object",
+      "required": ["ownership", "confidentiality", "liability", "termination"],
+      "properties": {
+        "ownership": { "type": "string" },
+        "confidentiality": { "type": "string" },
+        "liability": { "type": "string" },
+        "termination": { "type": "string" },
+        "governingLaw": { "type": "string" },
+        "forceMajeure": { "type": "string" },
+        "disputeResolution": { "type": "string" }
+      }
+    },
+    "signature": {
+      "type": "object",
+      "properties": {
+        "signerName": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "signedDate": { "type": ["string", "null"] },
+        "signatureStatus": { "type": "string", "enum": ["UNSIGNED", "SIGNED"] }
+      }
+    },
+    "success": {
+      "type": "object",
+      "required": ["confirmationMessage", "nextSteps", "contactDetails"],
+      "properties": {
+        "confirmationMessage": { "type": "string" },
+        "nextSteps": { "type": "array", "items": { "type": "string" } },
+        "contactDetails": {
+          "type": "object",
+          "required": ["name", "email"],
+          "properties": {
+            "name": { "type": "string" },
+            "email": { "type": "string", "format": "email" },
+            "phone": { "type": "string" }
+          }
+        }
+      }
+    }
+  }
+}
