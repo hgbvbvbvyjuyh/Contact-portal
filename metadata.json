@@ -1,0 +1,6 @@
+{
+  "name": "Client Proposal & Onboarding Portal",
+  "description": "A premium, unified web application for clients to review proposals, sign agreements, make payments, and initiate onboarding.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
