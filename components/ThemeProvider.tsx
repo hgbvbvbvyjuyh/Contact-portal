@@ -150,9 +150,9 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
         setProposal(normalizedProposal);
         // Also update brand config if agency info is present
-        if (data.agency?.agencyName) {
+        if (normalizedProposal.agency?.agencyName) {
           updateBrandConfig({
-            agencyName: data.agency.agencyName,
+            agencyName: normalizedProposal.agency.agencyName,
           });
         }
       } else {

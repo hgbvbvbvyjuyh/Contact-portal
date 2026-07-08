@@ -81,7 +81,9 @@ export function AppShell({
           <div className="flex items-start gap-2.5">
             <User className="h-4 w-4 text-primary shrink-0 mt-0.5" />
             <div>
-              <p className="font-semibold text-foreground">{proposal?.client?.company || 'The Client'}</p>
+              <p className="font-semibold text-foreground">
+                {proposal?.agreementInformation?.companyName || proposal?.client?.company || 'The Client'}
+              </p>
               <p className="text-[11px] text-muted-foreground">{proposal?.client?.email || 'N/A'}</p>
             </div>
           </div>

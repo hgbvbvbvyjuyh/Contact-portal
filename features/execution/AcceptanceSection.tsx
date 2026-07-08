@@ -158,7 +158,7 @@ export function AcceptanceSection({
 
                 {/* Authorization Clause Callout */}
                 <div className="p-4 rounded bg-brand-blue/3 border border-brand-blue/10 text-xs sm:text-sm text-foreground/90 leading-relaxed font-sans">
-                  You confirm that you are authorized to approve this proposal on behalf of <strong className="text-brand-blue font-semibold">{proposal?.client?.company || 'Nafirofiqul LLC'}</strong>.
+                  You confirm that you are authorized to approve this proposal on behalf of <strong className="text-brand-blue font-semibold">{proposal?.agreementInformation?.companyName || proposal?.client?.company || 'Nafirofiqul LLC'}</strong>.
                 </div>
               </div>
 

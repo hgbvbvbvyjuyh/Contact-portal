@@ -284,6 +284,9 @@ export interface Proposal {
   state: ProposalState; // Step indicator tracker binding
   date: string; // Legacy alias for backward-compatibility with preparational date
 
+  agreementInformation?: {
+    companyName?: string;
+  };
   agency: Agency;
   client: Client;
   project: Project;
