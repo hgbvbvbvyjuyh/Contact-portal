@@ -37,8 +37,9 @@ export function PaymentSection({
   isPaid,
   paymentLoading,
 }: PaymentSectionProps) {
-  const { placeholderProposal } = useTheme();
-  const proposal = placeholderProposal;
+  const { proposal } = useTheme();
+
+  if (!proposal) return null;
 
   const depositDue = proposal?.pricing?.deposit || 3500.00;
   const formatCurrency = (val: number) => {

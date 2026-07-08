@@ -3,9 +3,10 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState, useCallback } from 'react';
 import { MOCK_PROPOSAL } from '@/mock/proposal';
 import { Proposal } from '@/types';
+import { supabase } from '@/lib/supabase';
 
 export type Theme = 'light' | 'dark' | 'system';
 
@@ -26,6 +27,10 @@ interface ThemeContextType {
   updateBrandConfig: (config: BrandConfig) => void;
   resetBrandConfig: () => void;
   placeholderProposal: Proposal;
+  proposal: Proposal | null;
+  loading: boolean;
+  error: string | null;
+  fetchProposal: (id: string) => Promise<void>;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -108,6 +113,59 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     setBrandConfig(DEFAULT_BRAND_CONFIG);
   };
 
+  const [proposal, setProposal] = useState<Proposal | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchProposal = useCallback(async (id: string) => {
+    setLoading(true);
+    setError(null);
+    try {
+      // For development/preview when Supabase might not be configured
+      // Strictly only in development mode
+      if (import.meta.env.DEV && (!import.meta.env.VITE_SUPABASE_URL || import.meta.env.VITE_SUPABASE_URL.includes('placeholder'))) {
+        console.warn('Supabase not configured in development, falling back to mock data');
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        setProposal(MOCK_PROPOSAL);
+        setLoading(false);
+        return;
+      }
+
+      const { data, error: fetchError } = await supabase
+        .from('proposals')
+        .select('*')
+        .eq('id', id)
+        .single();
+
+      if (fetchError) {
+        throw fetchError;
+      }
+
+      if (data) {
+        // If data has a 'content' field (normalized schema), merge it with the top-level fields
+        // to match the expected Proposal interface structure.
+        const normalizedProposal = data.content
+          ? { ...data, ...data.content } as Proposal
+          : data as Proposal;
+
+        setProposal(normalizedProposal);
+        // Also update brand config if agency info is present
+        if (data.agency?.agencyName) {
+          updateBrandConfig({
+            agencyName: data.agency.agencyName,
+          });
+        }
+      } else {
+        setError('Proposal not found');
+      }
+    } catch (err: any) {
+      console.error('Error fetching proposal:', err);
+      setError(err.message || 'An error occurred while fetching the proposal');
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
   return (
     <ThemeContext.Provider
       value={{
@@ -118,6 +176,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         updateBrandConfig,
         resetBrandConfig,
         placeholderProposal: MOCK_PROPOSAL,
+        proposal,
+        loading,
+        error,
+        fetchProposal,
       }}
     >
       {children}

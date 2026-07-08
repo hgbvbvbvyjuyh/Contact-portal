@@ -7,7 +7,6 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { useTheme } from '@/components/ThemeProvider';
 import { InfoCard, CalloutBox } from '@/components/BusinessComponents';
-import { PLACEHOLDER_PROPOSAL, AGENCY_INFO } from '@/constants/placeholderData';
 import { Button } from '@/components/Button';
 import { Grid, Divider } from '@/components/Layout';
 import { H2 } from '@/components/Typography';
@@ -19,7 +18,9 @@ interface AgreementInfoSectionProps {
 }
 
 export function AgreementInfoSection({ onNext, onBack }: AgreementInfoSectionProps) {
-  const { brandConfig } = useTheme();
+  const { brandConfig, proposal } = useTheme();
+
+  if (!proposal) return null;
 
   return (
     <div className="space-y-8 animate-in fade-in duration-300 font-sans">
@@ -46,15 +47,15 @@ export function AgreementInfoSection({ onNext, onBack }: AgreementInfoSectionPro
             <div className="space-y-3 text-xs text-muted-foreground leading-relaxed">
               <div className="flex justify-between border-b border-border/10 pb-1.5">
                 <span className="font-semibold text-foreground">Company Name</span>
-                <span>{PLACEHOLDER_PROPOSAL.client.company}</span>
+                <span>{proposal.client.company}</span>
               </div>
               <div className="flex justify-between border-b border-border/10 pb-1.5">
                 <span className="font-semibold text-foreground">Authorized Contact</span>
-                <span>{PLACEHOLDER_PROPOSAL.client.name}</span>
+                <span>{proposal.client.name}</span>
               </div>
               <div className="flex justify-between">
                 <span className="font-semibold text-foreground">Primary Email</span>
-                <span>{PLACEHOLDER_PROPOSAL.client.email}</span>
+                <span>{proposal.client.email}</span>
               </div>
             </div>
           </InfoCard>
@@ -73,15 +74,15 @@ export function AgreementInfoSection({ onNext, onBack }: AgreementInfoSectionPro
             <div className="space-y-3 text-xs text-muted-foreground leading-relaxed">
               <div className="flex justify-between border-b border-border/10 pb-1.5">
                 <span className="font-semibold text-foreground">Agency Name</span>
-                <span>{brandConfig.agencyName || AGENCY_INFO.name}</span>
+                <span>{brandConfig.agencyName || proposal.agency.agencyName}</span>
               </div>
               <div className="flex justify-between border-b border-border/10 pb-1.5">
                 <span className="font-semibold text-foreground">Consultant Architect</span>
-                <span>{AGENCY_INFO.consultantEmail}</span>
+                <span>{proposal.agency.email}</span>
               </div>
               <div className="flex justify-between">
                 <span className="font-semibold text-foreground">Effective Proposal Date</span>
-                <span>{AGENCY_INFO.effectiveDate}</span>
+                <span>{proposal.date || proposal.createdAt}</span>
               </div>
             </div>
           </InfoCard>
@@ -112,11 +113,11 @@ export function AgreementInfoSection({ onNext, onBack }: AgreementInfoSectionPro
       >
         <div className="flex items-center gap-2">
           <Calendar className="h-3.5 w-3.5 text-primary" />
-          <span>Effective: {AGENCY_INFO.effectiveDate}</span>
+          <span>Effective: {proposal.date || proposal.createdAt}</span>
         </div>
         <div className="flex items-center gap-2">
           <HelpCircle className="h-3.5 w-3.5 text-primary" />
-          <span>Approximate reading time: {AGENCY_INFO.readingTime}</span>
+          <span>Approximate reading time: {proposal.project.estimatedReadingTime}</span>
         </div>
       </motion.div>
 

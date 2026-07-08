@@ -35,8 +35,10 @@ export function InvoiceSection({
   onBack,
   isPaid,
 }: InvoiceSectionProps) {
-  const { placeholderProposal } = useTheme();
-  const proposal = placeholderProposal;
+  const { proposal } = useTheme();
+
+  if (!proposal) return null;
+
   const invoiceData = proposal?.commercial?.invoice || proposal?.invoice;
   const [isDownloading, setIsDownloading] = useState(false);
 
@@ -68,7 +70,7 @@ export function InvoiceSection({
   const remainingBalance = proposal?.pricing?.remainingBalance || 3500.00;
   const projectName = proposal?.project?.projectName || 'Digital Onboarding Pipeline';
 
-  const includedItems = proposal?.scope?.deliverables?.map((d: any) => d.title) || [
+  const includedItems = proposal?.deliverables?.map((d: any) => d.title) || [
     'Digital Onboarding Infrastructure',
     'Custom Portal Integration',
     'Automated Webhooks & Workflows',

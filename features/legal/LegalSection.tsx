@@ -5,6 +5,7 @@
 
 import React from 'react';
 import { motion } from 'motion/react';
+import { useTheme } from '@/components/ThemeProvider';
 import { Card } from '@/components/Card';
 import { Button } from '@/components/Button';
 import { Divider } from '@/components/Layout';
@@ -25,6 +26,10 @@ interface LegalSectionProps {
 }
 
 export function LegalSection({ onNext, onBack }: LegalSectionProps) {
+  const { proposal } = useTheme();
+
+  if (!proposal) return null;
+
   // Stagger animation definitions
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -56,7 +61,7 @@ export function LegalSection({ onNext, onBack }: LegalSectionProps) {
       badgeColor: 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20',
       icon: <ShieldCheck className="h-5 w-5" />,
       iconColor: 'bg-emerald-500/10 text-emerald-600 border-emerald-500/15',
-      content: 'We are committed to delivering professional, high-quality work that aligns with the agreed project scope. If any issue arises due to our implementation during the agreed warranty period, we will correct it at no additional cost. The warranty does not cover new feature requests, project changes, third-party service issues, or modifications made by anyone other than our team after delivery.'
+      content: proposal.legal?.ownership || 'We are committed to delivering professional, high-quality work that aligns with the agreed project scope. If any issue arises due to our implementation during the agreed warranty period, we will correct it at no additional cost. The warranty does not cover new feature requests, project changes, third-party service issues, or modifications made by anyone other than our team after delivery.'
     },
     {
       title: 'Cancellation Policy',
@@ -64,7 +69,7 @@ export function LegalSection({ onNext, onBack }: LegalSectionProps) {
       badgeColor: 'bg-rose-500/10 text-rose-600 border-rose-500/20',
       icon: <CalendarX className="h-5 w-5" />,
       iconColor: 'bg-rose-500/10 text-rose-600 border-rose-500/15',
-      content: "Either party may terminate this agreement by providing 15 days' written notice. If the client cancels before completing the agreed minimum commitment period, the remaining balance for that committed term will become immediately payable. After the minimum commitment period has been fulfilled, either party may terminate the agreement with 15 days' written notice. Services will continue until the end of the current billing period, after which all managed services will end. Any outstanding invoices for completed work remain payable."
+      content: proposal.legal?.termination || "Either party may terminate this agreement by providing 15 days' written notice. If the client cancels before completing the agreed minimum commitment period, the remaining balance for that committed term will become immediately payable. After the minimum commitment period has been fulfilled, either party may terminate the agreement with 15 days' written notice. Services will continue until the end of the current billing period, after which all managed services will end. Any outstanding invoices for completed work remain payable."
     },
     {
       title: 'Liability',
@@ -72,7 +77,7 @@ export function LegalSection({ onNext, onBack }: LegalSectionProps) {
       badgeColor: 'bg-amber-500/10 text-amber-600 border-amber-500/20',
       icon: <Scale className="h-5 w-5" />,
       iconColor: 'bg-amber-500/10 text-amber-600 border-amber-500/15',
-      content: 'Both parties agree to work together in good faith throughout the project. Neither party will be responsible for indirect or unexpected losses resulting from the project. If either party becomes legally responsible under this agreement, that responsibility will not exceed the total amount paid under this proposal, unless required by applicable law.'
+      content: proposal.legal?.liability || 'Both parties agree to work together in good faith throughout the project. Neither party will be responsible for indirect or unexpected losses resulting from the project. If either party becomes legally responsible under this agreement, that responsibility will not exceed the total amount paid under this proposal, unless required by applicable law.'
     },
     {
       title: 'Dispute Resolution',
@@ -80,7 +85,7 @@ export function LegalSection({ onNext, onBack }: LegalSectionProps) {
       badgeColor: 'bg-indigo-500/10 text-indigo-600 border-indigo-500/20',
       icon: <Handshake className="h-5 w-5" />,
       iconColor: 'bg-indigo-500/10 text-indigo-600 border-indigo-500/15',
-      content: 'If a disagreement arises, both parties agree to first work together in good faith to find a fair solution through open discussion. If the issue cannot be resolved, both parties agree to settle the matter through arbitration in Wilmington, Delaware, unless another arrangement is agreed to in writing.'
+      content: proposal.legal?.disputeResolution || 'If a disagreement arises, both parties agree to first work together in good faith to find a fair solution through open discussion. If the issue cannot be resolved, both parties agree to settle the matter through arbitration in Wilmington, Delaware, unless another arrangement is agreed to in writing.'
     }
   ];
 

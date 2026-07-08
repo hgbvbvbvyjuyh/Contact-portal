@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import { Routes, Route, useParams, Navigate } from 'react-router-dom';
 import { ThemeProvider, useTheme } from '@/components/ThemeProvider';
 import { AppShell } from '@/components/AppShell';
 import { Card, InteractiveCard, InformationCard } from '@/components/Card';
@@ -56,7 +57,17 @@ import {
 } from 'lucide-react';
 
 function SetupDashboard() {
-  const { resolvedTheme, brandConfig, updateBrandConfig, resetBrandConfig } = useTheme();
+  const { proposalId } = useParams<{ proposalId: string }>();
+  const {
+    resolvedTheme,
+    brandConfig,
+    updateBrandConfig,
+    resetBrandConfig,
+    proposal,
+    loading,
+    error,
+    fetchProposal
+  } = useTheme();
   const [activeStepId, setActiveStepId] = useState<string>('cover');
   const [signatureName, setSignatureName] = useState<string>('');
   const [isSigned, setIsSigned] = useState<boolean>(false);
@@ -95,6 +106,53 @@ function SetupDashboard() {
       handleNextStep('success');
     }, 1500);
   };
+
+  useEffect(() => {
+    if (proposalId) {
+      fetchProposal(proposalId);
+    }
+  }, [proposalId, fetchProposal]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-12 w-12 rounded-full border-4 border-primary/20 border-t-primary animate-spin" />
+          <p className="text-sm font-medium text-muted-foreground animate-pulse font-sans">
+            Loading your premium proposal...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !proposal) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background p-6">
+        <div className="max-w-md w-full space-y-6 text-center animate-in fade-in zoom-in duration-500">
+          <div className="h-20 w-20 rounded-2xl bg-rose-500/10 text-rose-500 flex items-center justify-center border border-rose-500/20 mx-auto">
+            <HelpCircle className="h-10 w-10" />
+          </div>
+          <div className="space-y-2">
+            <h1 className="text-2xl font-bold tracking-tight text-foreground">
+              Proposal Not Found
+            </h1>
+            <p className="text-sm text-muted-foreground leading-relaxed font-sans">
+              The proposal you're looking for doesn't exist or may have been removed.
+              Please contact us if you believe this is an error.
+            </p>
+          </div>
+          <Button
+            variant="outline"
+            onClick={() => window.location.href = '/'}
+            className="w-full h-11"
+          >
+            Return to Homepage
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   // Render Step Content
   const renderStepContent = () => {
@@ -267,7 +325,12 @@ function SetupDashboard() {
 export default function App() {
   return (
     <ThemeProvider>
-      <SetupDashboard />
+      <Routes>
+        <Route path="/proposal/:proposalId" element={<SetupDashboard />} />
+        {/* Redirect root to a default proposal or show error - for now, we'll keep it simple */}
+        <Route path="/" element={<Navigate to="/proposal/prop_001" replace />} />
+        <Route path="*" element={<div className="p-20 text-center">Page Not Found</div>} />
+      </Routes>
     </ThemeProvider>
   );
 }

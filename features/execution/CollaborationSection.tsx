@@ -5,6 +5,7 @@
 
 import React from 'react';
 import { motion } from 'motion/react';
+import { useTheme } from '@/components/ThemeProvider';
 import { Card } from '@/components/Card';
 import { Button } from '@/components/Button';
 import { Divider, Grid } from '@/components/Layout';
@@ -28,11 +29,15 @@ interface CollaborationSectionProps {
 }
 
 export function CollaborationSection({ onNext, onBack }: CollaborationSectionProps) {
-  // Static content: Client Responsibilities
+  const { proposal } = useTheme();
+
+  if (!proposal) return null;
+
+  // content: Client Responsibilities
   const clientResponsibilities = {
     title: 'Client Responsibilities',
     intro: 'To ensure a smooth and efficient project, we ask that you complete the following responsibilities throughout the engagement.',
-    items: [
+    items: proposal.collaboration?.clientResponsibilities || [
       'Attend the scheduled onboarding call (30–60 minutes) to review the project goals, scope, and timeline.',
       'Provide all required business information, brand guidelines, and project documentation before or within 48 hours after the onboarding call.',
       'Grant access to all required platforms, accounts, hosting, CMS, analytics, repositories, or third-party services needed to complete the project.',
@@ -41,11 +46,11 @@ export function CollaborationSection({ onNext, onBack }: CollaborationSectionPro
     ]
   };
 
-  // Static content: Our Responsibilities
+  // content: Our Responsibilities
   const ourResponsibilities = {
     title: 'Our Responsibilities',
     intro: 'We are committed to delivering a professional experience and maintaining clear communication throughout the project.',
-    items: [
+    items: proposal.collaboration?.agencyResponsibilities || [
       'Assign a dedicated point of contact for the duration of the project.',
       'Maintain clear, professional, and timely communication.',
       'Keep you informed of project progress and important milestones.',

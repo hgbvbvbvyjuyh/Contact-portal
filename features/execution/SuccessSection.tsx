@@ -35,8 +35,10 @@ export function SuccessSection({
   onReset,
   signatureName,
 }: SuccessSectionProps) {
-  const { placeholderProposal } = useTheme();
-  const proposal = placeholderProposal;
+  const { proposal } = useTheme();
+
+  if (!proposal) return null;
+
   const successData = proposal?.success;
 
   const [toast, setToast] = useState<{ message: string; description: string; variant?: 'success' | 'info' | 'error' } | null>(null);

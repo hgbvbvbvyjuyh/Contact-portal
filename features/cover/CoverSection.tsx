@@ -7,7 +7,6 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { useTheme } from '@/components/ThemeProvider';
 import { CoverHero } from '@/components/BusinessComponents';
-import { PLACEHOLDER_PROPOSAL, AGENCY_INFO } from '@/constants/placeholderData';
 import { cn } from '@/lib/utils';
 import { 
   Check, 
@@ -26,7 +25,9 @@ interface CoverSectionProps {
 }
 
 export function CoverSection({ onStartReview, isSigned = false, isPaid = false }: CoverSectionProps) {
-  const { brandConfig } = useTheme();
+  const { brandConfig, proposal } = useTheme();
+
+  if (!proposal) return null;
 
   // Define steps dynamically based on isSigned and isPaid state
   const steps = [
@@ -76,14 +77,14 @@ export function CoverSection({ onStartReview, isSigned = false, isPaid = false }
     <div className="space-y-12 animate-in fade-in duration-300">
       {/* 1. Elite Cover Hero Component */}
       <CoverHero
-        agencyName={brandConfig.agencyName || AGENCY_INFO.name}
-        proposalTitle={`${PLACEHOLDER_PROPOSAL.projectName} Proposal`}
-        projectName={PLACEHOLDER_PROPOSAL.projectName}
-        clientName={PLACEHOLDER_PROPOSAL.client.company}
+        agencyName={brandConfig.agencyName || proposal.agency.agencyName}
+        proposalTitle={`${proposal.projectName || proposal.project?.projectName} Proposal`}
+        projectName={proposal.projectName || proposal.project?.projectName}
+        clientName={proposal.client.company}
         welcomeMessage={`Welcome to your custom digital onboarding pipeline. This interactive portal allows you to review structural details, verify sprint releases, and authorize agreement covenants digitally.`}
-        preparedDate={PLACEHOLDER_PROPOSAL.date}
-        version={AGENCY_INFO.version}
-        readingTime={AGENCY_INFO.readingTime}
+        preparedDate={proposal.date || proposal.createdAt}
+        version={proposal.version}
+        readingTime={proposal.project.estimatedReadingTime}
         onStartReview={onStartReview}
       />
 

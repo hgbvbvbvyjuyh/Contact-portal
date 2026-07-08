@@ -27,8 +27,11 @@ interface OwnershipSectionProps {
 }
 
 export function OwnershipSection({ onNext, onBack }: OwnershipSectionProps) {
-  const { brandConfig } = useTheme();
-  const agencyName = brandConfig.agencyName || 'Founding Partner';
+  const { brandConfig, proposal } = useTheme();
+
+  if (!proposal) return null;
+
+  const agencyName = brandConfig.agencyName || proposal.agency.agencyName || 'Founding Partner';
 
   // Container variants for clean staggering animations
   const containerVariants = {
