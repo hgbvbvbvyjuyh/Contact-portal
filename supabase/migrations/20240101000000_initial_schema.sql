@@ -68,7 +68,7 @@ CREATE TABLE public.proposals (
     n8n_metadata JSONB DEFAULT '{}'::jsonb, -- Store trigger results/logs
 
     -- Search/Friendly IDs
-    friendly_id TEXT UNIQUE -- e.g. "PROP-001" (Optional)
+    proposal_number TEXT UNIQUE NOT NULL -- e.g. "PROP-2026-000001"
 );
 
 -- 4. Audit Logs (Recommended for Production)
@@ -86,6 +86,7 @@ CREATE TABLE public.audit_logs (
 CREATE INDEX idx_proposals_client_id ON public.proposals(client_id);
 CREATE INDEX idx_proposals_agency_id ON public.proposals(agency_id);
 CREATE INDEX idx_proposals_status ON public.proposals(status);
+CREATE INDEX idx_proposals_proposal_number ON public.proposals(proposal_number);
 CREATE INDEX idx_clients_email ON public.clients(email);
 
 -- Row Level Security (RLS)

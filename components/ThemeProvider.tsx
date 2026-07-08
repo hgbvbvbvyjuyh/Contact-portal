@@ -134,7 +134,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       const { data, error: fetchError } = await supabase
         .from('proposals')
         .select('*')
-        .eq('id', id)
+        .eq('proposal_number', id)
         .single();
 
       if (fetchError) {
