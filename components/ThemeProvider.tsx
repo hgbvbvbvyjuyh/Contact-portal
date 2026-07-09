@@ -142,17 +142,28 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       }
 
       if (data) {
-        // If data has a 'content' field (normalized schema), merge it with the top-level fields
-        // to match the expected Proposal interface structure.
-        const normalizedProposal = data.content
-          ? { ...data, ...data.content } as Proposal
-          : data as Proposal;
+        let parsedProposal: Proposal | null = null;
+        if (data.proposal) {
+          if (typeof data.proposal === 'string') {
+            try {
+              parsedProposal = JSON.parse(data.proposal) as Proposal;
+            } catch (e) {
+              console.error('Error parsing proposal JSON string:', e);
+            }
+          } else if (typeof data.proposal === 'object') {
+            parsedProposal = data.proposal as Proposal;
+          }
+        }
 
-        setProposal(normalizedProposal);
-        // Also update brand config if agency info is present
-        if (normalizedProposal.agreementInformation?.agencyName) {
+        if (!parsedProposal) {
+          parsedProposal = data as unknown as Proposal;
+        }
+
+        setProposal(parsedProposal);
+        // Also update brand config if company info is present
+        if (parsedProposal.agreementInformation?.companyName) {
           updateBrandConfig({
-            agencyName: normalizedProposal.agreementInformation.agencyName,
+            agencyName: parsedProposal.agreementInformation.companyName,
           });
         }
       } else {
