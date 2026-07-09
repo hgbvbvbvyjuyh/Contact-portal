@@ -22,18 +22,9 @@ export function PaymentSummary({
   isPaid,
   simulatedStatus = 'Pending'
 }: PaymentSummaryProps) {
-  const projectName = proposal?.projectOverview?.projectName || 'Founding Partner Program';
-
-  const formatCurrency = (val: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(val);
-  };
-
-  const totalInvestment = 7000.00;
-  const dueToday = 3500.00;
-  const remainingBalance = 3500.00;
+  const serviceType = proposal?.agreementInformation?.serviceType || 'Client Proposal';
+  const projectPrice = proposal?.agreementInformation?.projectPrice || 'N/A';
+  const paymentSchedule = proposal?.agreementInformation?.paymentSchedule || 'N/A';
 
   // Resolve status based on isPaid state
   const currentStatus: SimulationStatus = isPaid ? 'Paid' : simulatedStatus;
@@ -53,7 +44,7 @@ export function PaymentSummary({
             Active Investment
           </span>
           <H3 className="text-base font-bold text-foreground">
-            {projectName}
+            {serviceType}
           </H3>
           <p className="text-xs text-muted-foreground">
             Onboarding & implementation kickoff
@@ -63,30 +54,23 @@ export function PaymentSummary({
         {/* Financial Details */}
         <div className="space-y-3.5 text-xs sm:text-sm font-sans">
           <div className="flex justify-between items-center py-1">
-            <span className="text-muted-foreground font-medium">Project Name</span>
+            <span className="text-muted-foreground font-medium">Service Type</span>
             <span className="font-semibold text-foreground text-right">
-              {projectName}
+              {serviceType}
             </span>
           </div>
           
           <div className="flex justify-between items-center py-1">
-            <span className="text-muted-foreground font-medium">Project Investment</span>
+            <span className="text-muted-foreground font-medium">Project Price</span>
             <span className="font-mono font-bold text-foreground">
-              {formatCurrency(totalInvestment)}
+              {projectPrice}
             </span>
           </div>
 
-          <div className="flex justify-between items-center py-1">
-            <span className="text-muted-foreground font-medium">Amount Due Today (50%)</span>
-            <span className="font-mono font-bold text-foreground">
-              {formatCurrency(dueToday)}
-            </span>
-          </div>
-
-          <div className="flex justify-between items-center py-1">
-            <span className="text-muted-foreground font-medium">Remaining Balance</span>
-            <span className="font-mono font-medium text-muted-foreground">
-              {formatCurrency(remainingBalance)}
+          <div className="flex justify-between items-start py-1 gap-4">
+            <span className="text-muted-foreground font-medium shrink-0">Payment Terms</span>
+            <span className="font-sans text-xs text-right text-muted-foreground whitespace-pre-wrap">
+              {paymentSchedule}
             </span>
           </div>
 

@@ -52,14 +52,7 @@ export function PaymentMethodCard({
     setTimeout(() => setCopiedKey(null), 2000);
   };
 
-  const formatCurrency = (val: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(val);
-  };
-
-  const depositDue = 3500.00;
+  const projectPrice = proposal.agreementInformation?.projectPrice || 'N/A';
 
   // Render Card content based on methodId
   if (methodId === 'card') {
@@ -122,7 +115,7 @@ export function PaymentMethodCard({
                 <span className="inline-block h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
               ) : (
                 <>
-                  Continue to Secure Payment
+                  Continue to Secure Payment ({projectPrice})
                   <ArrowRight className="h-4.5 w-4.5" />
                 </>
               )}
@@ -143,7 +136,7 @@ export function PaymentMethodCard({
 
   if (methodId === 'crypto') {
     const cryptoAddress = '0x2F6BFF37XN49m9R1B2B7bLV1007496361124S';
-    const cryptoRef = 'REF-FOUNDING-PARTNER';
+    const cryptoRef = 'REF-PROPOSAL-PAYMENT';
     return (
       <Card 
         id="payment-method-crypto"
@@ -256,7 +249,7 @@ export function PaymentMethodCard({
                       <span>How to complete your crypto transaction:</span>
                     </div>
                     <ul className="list-disc pl-4 space-y-1">
-                      <li>Send equivalent value of <strong>{formatCurrency(depositDue)}</strong>.</li>
+                      <li>Send equivalent value of <strong>{projectPrice}</strong>.</li>
                       <li>Include the reference memo <code className="bg-muted px-1.5 py-0.5 rounded text-foreground font-mono">{cryptoRef}</code> where possible.</li>
                       <li>Once the transaction is confirmed, click "Confirm / Notify Sent" to update our team.</li>
                     </ul>
@@ -268,7 +261,7 @@ export function PaymentMethodCard({
                         onStatusChange('Awaiting Confirmation');
                         setToast({
                           message: 'Crypto Notification Logged',
-                          description: 'Your cryptocurrency payment notification has been recorded. Awaiting block confirmation.',
+                          description: 'Your cryptocurrency payment payment has been recorded. Awaiting block confirmation.',
                           variant: 'info'
                         });
                       }}
@@ -297,10 +290,10 @@ export function PaymentMethodCard({
   if (methodId === 'swift') {
     const bankDetails = {
       bankName: 'CHASE BANK N.A.',
-      accountName: proposal?.agreementInformation?.agencyName || 'AGENCY PARTNER PORTAL LLC',
+      accountName: proposal?.agreementInformation?.companyName || 'N/A',
       swift: 'CHASUS33XXX',
       iban: 'US89CHAS3000297496361124S',
-      reference: 'REF-FOUNDING-PARTNER'
+      reference: 'REF-PROPOSAL-PAYMENT'
     };
 
     return (
@@ -407,7 +400,7 @@ export function PaymentMethodCard({
                       <span>Bank Wire Instructions:</span>
                     </div>
                     <p>
-                      Transfer <strong>{formatCurrency(depositDue)}</strong>. Include the Reference Memo <code className="bg-muted px-1.5 py-0.5 rounded text-foreground font-mono">{bankDetails.reference}</code> in your transfer's memo or description field so we can credit your account quickly. SWIFT processing usually completes within 2–3 business days.
+                      Transfer <strong>{projectPrice}</strong>. Include the Reference Memo <code className="bg-muted px-1.5 py-0.5 rounded text-foreground font-mono">{bankDetails.reference}</code> in your transfer's memo or description field so we can credit your account quickly. SWIFT processing usually completes within 2–3 business days.
                     </p>
                   </div>
 

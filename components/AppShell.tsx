@@ -55,6 +55,12 @@ export function AppShell({
     onStepChange?.(stepId);
   };
 
+  // Extract from projectTimeline
+  const finalMilestone = proposal?.projectTimeline && proposal.projectTimeline.length > 0
+    ? proposal.projectTimeline[proposal.projectTimeline.length - 1]
+    : null;
+  const targetLaunchDate = finalMilestone?.dueDate || 'N/A';
+
   // 3. Placeholder Sidebar Panels
   const renderSidebarContent = () => (
     <div className="space-y-6">
@@ -64,13 +70,13 @@ export function AppShell({
           <div className="flex items-start gap-2.5">
             <Briefcase className="h-4 w-4 text-primary shrink-0 mt-0.5" />
             <div>
-              <p className="font-semibold text-foreground">{proposal?.projectOverview?.projectName || 'Project Proposal'}</p>
-              <p className="text-[11px] text-muted-foreground">Digital Product Architecture</p>
+              <p className="font-semibold text-foreground">{proposal?.agreementInformation?.serviceType || 'Client Proposal'}</p>
+              <p className="text-[11px] text-muted-foreground">{proposal?.agreementInformation?.industry || 'Technology'}</p>
             </div>
           </div>
           <div className="flex items-center gap-2 text-[11px] text-muted-foreground pt-1">
             <CalendarDays className="h-3.5 w-3.5" />
-            <span>Target Launch: {proposal?.projectTimeline?.[proposal.projectTimeline.length - 1]?.dueDate || 'Oct 2026'}</span>
+            <span>Target Launch: {targetLaunchDate}</span>
           </div>
         </div>
       </PlaceholderCard>
@@ -82,9 +88,12 @@ export function AppShell({
             <User className="h-4 w-4 text-primary shrink-0 mt-0.5" />
             <div>
               <p className="font-semibold text-foreground">
-                {proposal?.agreementInformation?.companyName || 'The Client'}
+                {proposal?.agreementInformation?.clientName || 'The Client'}
               </p>
-              <p className="text-[11px] text-muted-foreground">{proposal?.agreementInformation?.clientEmail || 'N/A'}</p>
+              {proposal?.agreementInformation?.companyName && (
+                <p className="text-xs text-muted-foreground">{proposal.agreementInformation.companyName}</p>
+              )}
+              <p className="text-[11px] text-muted-foreground">{proposal?.agreementInformation?.email || 'N/A'}</p>
             </div>
           </div>
         </div>
@@ -141,7 +150,7 @@ export function AppShell({
             <LifeBuoy className="h-4 w-4 text-primary shrink-0 mt-0.5" />
             <div>
               <p className="font-semibold text-foreground">Premium Client Desk</p>
-              <p className="text-[11px] text-muted-foreground">{proposal?.agreementInformation?.agencyEmail || 'support@agency.design'}</p>
+              <p className="text-[11px] text-muted-foreground">{proposal?.agreementInformation?.email || 'N/A'}</p>
             </div>
           </div>
         </div>
