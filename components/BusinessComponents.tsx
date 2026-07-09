@@ -20,6 +20,7 @@ interface CoverHeroProps {
   serviceType?: string;
   companyName?: string;
   datePrepared?: string;
+  proposalVersion?: string;
   onStartReview: () => void;
   className?: string;
 }
@@ -28,12 +29,12 @@ export function CoverHero({
   serviceType,
   companyName,
   datePrepared,
+  proposalVersion,
   onStartReview,
   className,
 }: CoverHeroProps) {
   const dynamicProject = serviceType || 'N/A';
   const dynamicClient = companyName || 'N/A';
-  const dynamicPreparedDate = datePrepared || 'N/A';
 
   return (
     <div className={cn('relative w-full pt-2 md:pt-4 pb-10 md:pb-16 overflow-hidden font-sans', className)}>
@@ -47,14 +48,24 @@ export function CoverHero({
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="flex flex-wrap items-center justify-between gap-4 border-b border-border/30 pb-6"
+          className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border/30 pb-6"
         >
-          <div className="flex items-center space-x-3">
-            <div className="h-9 w-9 rounded-button bg-primary/10 text-primary flex items-center justify-center border border-primary/20">
-              <Compass className="h-5 w-5 animate-spin-slow" />
-            </div>
-            <span className="text-sm font-semibold tracking-tight text-foreground uppercase">
-              PORTAL
+          <div className="space-y-1">
+            <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-widest">
+              Proposal & Agreement Portal
+            </p>
+            <p className="text-xs font-bold text-primary uppercase tracking-widest">
+              DIGITAL SERVICES AGREEMENT
+            </p>
+          </div>
+          <div className="flex items-center gap-2 sm:self-end">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-primary/5 text-primary border border-primary/10">
+              <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+              Version: {proposalVersion || 'V1.0.0'}
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-muted text-muted-foreground border border-border/40">
+              <Clock className="h-3.5 w-3.5 text-muted-foreground" />
+              8 MIN READ
             </span>
           </div>
         </motion.div>
@@ -95,16 +106,16 @@ export function CoverHero({
             className="flex flex-wrap gap-3 pt-2"
           >
             <div className="bg-card/50 border border-border/40 rounded-button px-4 py-2 flex items-center gap-2 shadow-low">
-              <span className="text-[10px] uppercase font-bold text-muted-foreground">Project:</span>
+              <span className="text-[10px] uppercase font-bold text-muted-foreground">PROJECT:</span>
               <span className="text-xs font-semibold text-foreground">{dynamicProject}</span>
             </div>
             <div className="bg-card/50 border border-border/40 rounded-button px-4 py-2 flex items-center gap-2 shadow-low">
-              <span className="text-[10px] uppercase font-bold text-muted-foreground">Client:</span>
+              <span className="text-[10px] uppercase font-bold text-muted-foreground">PREPARED FOR:</span>
               <span className="text-xs font-semibold text-foreground">{dynamicClient}</span>
             </div>
             <div className="bg-card/50 border border-border/40 rounded-button px-4 py-2 flex items-center gap-2 shadow-low">
-              <span className="text-[10px] uppercase font-bold text-muted-foreground">Prepared Date:</span>
-              <span className="text-xs font-semibold text-foreground">{dynamicPreparedDate}</span>
+              <span className="text-[10px] uppercase font-bold text-muted-foreground">PREPARED BY:</span>
+              <span className="text-xs font-semibold text-foreground">Bilvo AI</span>
             </div>
           </motion.div>
         </div>

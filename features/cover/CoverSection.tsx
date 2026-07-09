@@ -80,6 +80,7 @@ export function CoverSection({ onStartReview, isSigned = false, isPaid = false }
         serviceType={proposal.agreementInformation?.serviceType}
         companyName={proposal.agreementInformation?.companyName}
         datePrepared={proposal.agreementInformation?.datePrepared}
+        proposalVersion={proposal.agreementInformation?.proposalVersion}
         onStartReview={onStartReview}
       />
 
