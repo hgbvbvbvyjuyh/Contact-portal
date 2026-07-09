@@ -22,9 +22,8 @@ export function PaymentSummary({
   isPaid,
   simulatedStatus = 'Pending'
 }: PaymentSummaryProps) {
-  const projectName = proposal?.projectName || proposal?.project?.projectName || 'Founding Partner Program';
+  const projectName = proposal?.projectOverview?.projectName || 'Founding Partner Program';
 
-  // Format helper for USD currency
   const formatCurrency = (val: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -32,9 +31,9 @@ export function PaymentSummary({
     }).format(val);
   };
 
-  const totalInvestment = proposal?.pricing?.total || 7000.00;
-  const dueToday = proposal?.pricing?.deposit || 3500.00;
-  const remainingBalance = proposal?.pricing?.remainingBalance || 3500.00;
+  const totalInvestment = 7000.00;
+  const dueToday = 3500.00;
+  const remainingBalance = 3500.00;
 
   // Resolve status based on isPaid state
   const currentStatus: SimulationStatus = isPaid ? 'Paid' : simulatedStatus;

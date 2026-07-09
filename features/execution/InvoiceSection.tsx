@@ -39,7 +39,7 @@ export function InvoiceSection({
 
   if (!proposal) return null;
 
-  const invoiceData = proposal?.commercial?.invoice || proposal?.invoice;
+  const invoiceData = null;
   const [isDownloading, setIsDownloading] = useState(false);
 
   const formatCurrency = (val: number) => {
@@ -65,10 +65,10 @@ export function InvoiceSection({
     }, 1200);
   };
 
-  const totalInvestment = proposal?.pricing?.total || 7000.00;
-  const depositDue = proposal?.pricing?.deposit || 3500.00;
-  const remainingBalance = proposal?.pricing?.remainingBalance || 3500.00;
-  const projectName = proposal?.project?.projectName || 'Digital Onboarding Pipeline';
+  const totalInvestment = 7000.00;
+  const depositDue = 3500.00;
+  const remainingBalance = 3500.00;
+  const projectName = proposal?.projectOverview?.projectName || 'Digital Onboarding Pipeline';
 
   const includedItems = proposal?.deliverables?.map((d: any) => d.title) || [
     'Digital Onboarding Infrastructure',

@@ -37,7 +37,7 @@ export function CollaborationSection({ onNext, onBack }: CollaborationSectionPro
   const clientResponsibilities = {
     title: 'Client Responsibilities',
     intro: 'To ensure a smooth and efficient project, we ask that you complete the following responsibilities throughout the engagement.',
-    items: proposal.collaboration?.clientResponsibilities || [
+    items: [
       'Attend the scheduled onboarding call (30–60 minutes) to review the project goals, scope, and timeline.',
       'Provide all required business information, brand guidelines, and project documentation before or within 48 hours after the onboarding call.',
       'Grant access to all required platforms, accounts, hosting, CMS, analytics, repositories, or third-party services needed to complete the project.',
@@ -50,7 +50,7 @@ export function CollaborationSection({ onNext, onBack }: CollaborationSectionPro
   const ourResponsibilities = {
     title: 'Our Responsibilities',
     intro: 'We are committed to delivering a professional experience and maintaining clear communication throughout the project.',
-    items: proposal.collaboration?.agencyResponsibilities || [
+    items: [
       'Assign a dedicated point of contact for the duration of the project.',
       'Maintain clear, professional, and timely communication.',
       'Keep you informed of project progress and important milestones.',

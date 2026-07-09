@@ -161,7 +161,7 @@ export function TimelineSection({ onNext, onBack }: TimelineSectionProps) {
 
   if (!proposal) return null;
 
-  const executionTimeline = proposal?.execution?.timeline || proposal?.timeline || [];
+  const executionTimeline = proposal?.projectTimeline || [];
 
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
@@ -183,8 +183,8 @@ export function TimelineSection({ onNext, onBack }: TimelineSectionProps) {
             <TimelineItem
               key={item.id}
               title={item.title}
-              description={item.description}
-              duration={item.estimatedDate || 'TBD'}
+              description={item.description || ''}
+              duration="1 Week"
               dueDate={item.dueDate || 'TBD'}
               status={item.status}
               index={idx}

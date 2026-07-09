@@ -39,7 +39,7 @@ export function SuccessSection({
 
   if (!proposal) return null;
 
-  const successData = proposal?.success;
+  const successData = null;
 
   const [toast, setToast] = useState<{ message: string; description: string; variant?: 'success' | 'info' | 'error' } | null>(null);
 
@@ -131,7 +131,7 @@ export function SuccessSection({
               PARTNERSHIP LAUNCH ACTIVE
             </Badge>
             <H1 className="text-foreground font-black text-2xl md:text-3xl tracking-tight leading-tight">
-              Welcome Aboard, {proposal?.agreementInformation?.companyName || proposal?.client?.company || 'Nafirofiqul LLC'}!
+              Welcome Aboard, {proposal?.agreementInformation?.companyName || 'Nafirofiqul LLC'}!
             </H1>
             <p className="text-xs text-muted-foreground leading-relaxed max-w-lg mx-auto font-sans">
               Thank you for partnering with us. Your signed agreement and initial payment have been successfully verified, and we are preparing the next steps for our upcoming project kickoff.
@@ -160,7 +160,7 @@ export function SuccessSection({
           </div>
           <div className="space-y-0.5">
             <div className="text-xs font-bold text-foreground">
-              {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(proposal?.commercial?.invoice?.total || 7000)}
+              {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(7000)}
             </div>
             <div className="text-[10px] text-muted-foreground font-mono font-medium">Receipt & Payment Confirmed</div>
           </div>
@@ -251,7 +251,7 @@ export function SuccessSection({
                   </div>
                   <div className="space-y-0.5 min-w-0">
                     <div className="text-[9px] text-muted-foreground font-mono">DEDICATED COORDINATOR</div>
-                    <div className="font-semibold truncate">{successData?.contactDetails?.name || 'Dedicated Success Lead'}</div>
+                    <div className="font-semibold truncate">{proposal?.agreementInformation?.agencyName || 'Dedicated Success Lead'}</div>
                   </div>
                 </div>
 
@@ -261,7 +261,7 @@ export function SuccessSection({
                   </div>
                   <div className="space-y-0.5 min-w-0">
                     <div className="text-[9px] text-muted-foreground font-mono">PARTNERSHIP SUPPORT</div>
-                    <div className="font-semibold truncate text-primary">{successData?.contactDetails?.email || 'support@agency.design'}</div>
+                    <div className="font-semibold truncate text-primary">{proposal?.agreementInformation?.agencyEmail || 'support@agency.design'}</div>
                   </div>
                 </div>
 
