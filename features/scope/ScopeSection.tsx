@@ -207,12 +207,11 @@ export function ScopeSection({ onNext, onBack }: ScopeSectionProps) {
   
   if (!proposal) return null;
 
-  const scopeItems = proposal?.scope || [];
-  const exclusionsItems = proposal?.exclusions || [];
+  const scopeItems = proposal?.scopeOfWork || [];
+  const exclusionsItems = proposal?.outOfScope || [];
 
   // Split scope items into 'In-scope' and others if required, but the Scope Card automatically formats based on state.
   const inScopeList = scopeItems.filter(item => item.status.toLowerCase() === 'in-scope' || item.status.toLowerCase() === 'active');
-  const outOfScopeFromScope = scopeItems.filter(item => item.status.toLowerCase() !== 'in-scope' && item.status.toLowerCase() !== 'active');
 
   return (
     <div className="space-y-12 animate-in fade-in duration-300">

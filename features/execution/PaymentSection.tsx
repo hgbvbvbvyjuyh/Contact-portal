@@ -41,7 +41,7 @@ export function PaymentSection({
 
   if (!proposal) return null;
 
-  const depositDue = proposal?.pricing?.deposit || 3500.00;
+  const depositDue = 3500.00;
   const formatCurrency = (val: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',

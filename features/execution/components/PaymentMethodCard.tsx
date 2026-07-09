@@ -59,7 +59,7 @@ export function PaymentMethodCard({
     }).format(val);
   };
 
-  const depositDue = proposal?.pricing?.deposit || 3500.00;
+  const depositDue = 3500.00;
 
   // Render Card content based on methodId
   if (methodId === 'card') {
@@ -142,9 +142,8 @@ export function PaymentMethodCard({
   }
 
   if (methodId === 'crypto') {
-    const erc20Wallet = proposal?.payment?.crypto?.wallets?.find((w: any) => w.network === 'ERC20');
-    const cryptoAddress = erc20Wallet?.address || '0x2F6BFF37XN49m9R1B2B7bLV1007496361124S';
-    const cryptoRef = proposal?.payment?.crypto?.reference || 'REF-FOUNDING-PARTNER';
+    const cryptoAddress = '0x2F6BFF37XN49m9R1B2B7bLV1007496361124S';
+    const cryptoRef = 'REF-FOUNDING-PARTNER';
     return (
       <Card 
         id="payment-method-crypto"
@@ -297,11 +296,11 @@ export function PaymentMethodCard({
 
   if (methodId === 'swift') {
     const bankDetails = {
-      bankName: proposal?.payment?.bank?.bankName || 'CHASE BANK N.A.',
-      accountName: proposal?.payment?.bank?.accountName || 'AGENCY PARTNER PORTAL LLC',
-      swift: proposal?.payment?.bank?.swift || 'CHASUS33XXX',
-      iban: proposal?.payment?.bank?.iban || 'US89CHAS3000297496361124S',
-      reference: proposal?.payment?.bank?.reference || 'REF-FOUNDING-PARTNER'
+      bankName: 'CHASE BANK N.A.',
+      accountName: proposal?.agreementInformation?.agencyName || 'AGENCY PARTNER PORTAL LLC',
+      swift: 'CHASUS33XXX',
+      iban: 'US89CHAS3000297496361124S',
+      reference: 'REF-FOUNDING-PARTNER'
     };
 
     return (

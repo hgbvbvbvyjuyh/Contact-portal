@@ -31,8 +31,8 @@ export function ProjectOverviewSection({ onNext, onBack }: ProjectOverviewSectio
 
   if (!proposal) return null;
 
-  const clientCompany = proposal.agreementInformation?.companyName || proposal.client?.company || 'your business';
-  const projectName = proposal.projectName || proposal.project?.projectName || 'this project';
+  const clientCompany = proposal.agreementInformation?.companyName || 'your business';
+  const projectName = proposal.projectOverview?.projectName || 'this project';
 
   // Section 1: Current Situation Copy
   const situationParagraphs = [

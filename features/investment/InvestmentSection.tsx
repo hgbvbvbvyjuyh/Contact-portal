@@ -33,11 +33,11 @@ export function InvestmentSection({ onNext, onBack }: InvestmentSectionProps) {
 
   if (!proposal) return null;
 
-  const totalInvestment = proposal?.pricing?.total || 7000.00;
-  const depositDue = proposal?.pricing?.deposit || 3500.00;
-  const remainingBalance = proposal?.pricing?.remainingBalance || 3500.00;
-  const projectName = proposal?.project?.projectName || 'Digital Onboarding Pipeline';
-  const clientName = proposal.agreementInformation?.companyName || proposal?.client?.company || 'Nafirofiqul LLC';
+  const totalInvestment = 7000.00;
+  const depositDue = 3500.00;
+  const remainingBalance = 3500.00;
+  const projectName = proposal?.projectOverview?.projectName || 'Digital Onboarding Pipeline';
+  const clientName = proposal.agreementInformation?.companyName || 'Nafirofiqul LLC';
 
   const formatCurrency = (val: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -53,7 +53,7 @@ export function InvestmentSection({ onNext, onBack }: InvestmentSectionProps) {
     'Enable structured API synchronization across internal databases'
   ];
 
-  const paymentSchedule = proposal?.pricing?.paymentSchedule || [
+  const paymentSchedule = [
     {
       id: 'ps_1',
       milestoneName: 'Initial Kickoff Deposit (50%)',
@@ -77,7 +77,7 @@ export function InvestmentSection({ onNext, onBack }: InvestmentSectionProps) {
     },
   ];
 
-  const revisionsInfo = proposal?.revisions || {
+  const revisionsInfo = {
     includedRevisions: 3,
     additionalRevisionPricing: '$150/hour flat-rate consulting fee',
     responseTime: 'Within 24 business hours',

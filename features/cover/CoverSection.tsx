@@ -77,14 +77,14 @@ export function CoverSection({ onStartReview, isSigned = false, isPaid = false }
     <div className="space-y-12 animate-in fade-in duration-300">
       {/* 1. Elite Cover Hero Component */}
       <CoverHero
-        agencyName={brandConfig.agencyName || proposal.agency?.agencyName}
-        proposalTitle={`${proposal.projectName || proposal.project?.projectName} Proposal`}
-        projectName={proposal.projectName || proposal.project?.projectName}
-        clientName={proposal.agreementInformation?.companyName || proposal.client?.company}
+        agencyName={brandConfig.agencyName || proposal.agreementInformation?.agencyName || 'The Agency'}
+        proposalTitle={`${proposal.projectOverview?.projectName || 'Project'} Proposal`}
+        projectName={proposal.projectOverview?.projectName || 'Project'}
+        clientName={proposal.agreementInformation?.companyName || 'The Client'}
         welcomeMessage={`Welcome to your custom digital onboarding pipeline. This interactive portal allows you to review structural details, verify sprint releases, and authorize agreement covenants digitally.`}
-        preparedDate={proposal.date || proposal.createdAt || ''}
+        preparedDate={proposal.agreementInformation?.proposalDate || proposal.date || proposal.createdAt || ''}
         version={proposal.version || '1.0.0'}
-        readingTime={proposal.project?.estimatedReadingTime}
+        readingTime={proposal.projectOverview?.estimatedReadingTime || '8 min read'}
         onStartReview={onStartReview}
       />
 

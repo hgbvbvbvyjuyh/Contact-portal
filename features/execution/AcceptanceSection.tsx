@@ -44,7 +44,7 @@ export function AcceptanceSection({
 
   if (!proposal) return null;
 
-  const signatureData = proposal?.signature;
+  const signatureData = null;
 
   // Track sub-step within Acceptance & E-Signature tab
   // 1: Acceptance Checkbox & Info
@@ -158,7 +158,7 @@ export function AcceptanceSection({
 
                 {/* Authorization Clause Callout */}
                 <div className="p-4 rounded bg-brand-blue/3 border border-brand-blue/10 text-xs sm:text-sm text-foreground/90 leading-relaxed font-sans">
-                  You confirm that you are authorized to approve this proposal on behalf of <strong className="text-brand-blue font-semibold">{proposal?.agreementInformation?.companyName || proposal?.client?.company || 'Nafirofiqul LLC'}</strong>.
+                  You confirm that you are authorized to approve this proposal on behalf of <strong className="text-brand-blue font-semibold">{proposal?.agreementInformation?.companyName || 'Nafirofiqul LLC'}</strong>.
                 </div>
               </div>
 
@@ -260,7 +260,7 @@ export function AcceptanceSection({
                       </div>
                       <div className="space-y-0.5 min-w-0">
                         <div className="text-[9px] text-muted-foreground font-mono uppercase tracking-wider">Representative</div>
-                        <div className="font-semibold truncate">{signatureData?.signerName || 'Nafirofiqul'}</div>
+                        <div className="font-semibold truncate">{proposal?.agreementInformation?.clientName || 'Nafirofiqul'}</div>
                       </div>
                     </div>
 
@@ -270,7 +270,7 @@ export function AcceptanceSection({
                       </div>
                       <div className="space-y-0.5 min-w-0">
                         <div className="text-[9px] text-muted-foreground font-mono uppercase tracking-wider">Email Address</div>
-                        <div className="font-semibold truncate text-brand-blue">{signatureData?.email || 'Nafirofiqul@gmail.com'}</div>
+                        <div className="font-semibold truncate text-brand-blue">{proposal?.agreementInformation?.clientEmail || 'Nafirofiqul@gmail.com'}</div>
                       </div>
                     </div>
 
