@@ -28,7 +28,7 @@ export function AgreementInfoSection({ onNext, onBack }: AgreementInfoSectionPro
       <div className="space-y-3">
         <H2 className="text-foreground font-bold tracking-tight">Agreement Information</H2>
         <p className="text-sm text-muted-foreground leading-relaxed max-w-2xl">
-          This digital onboarding proposal outlines the service commitment, structural delivery parameters, and payment structures between the client and agency.
+          This digital onboarding proposal outlines the service commitment, structural delivery parameters, and payment structures.
         </p>
       </div>
 
@@ -46,16 +46,32 @@ export function AgreementInfoSection({ onNext, onBack }: AgreementInfoSectionPro
           >
             <div className="space-y-3 text-xs text-muted-foreground leading-relaxed">
               <div className="flex justify-between border-b border-border/10 pb-1.5">
-                <span className="font-semibold text-foreground">Company Name</span>
-                <span>{proposal.agreementInformation?.companyName || 'The Client'}</span>
-              </div>
-              <div className="flex justify-between border-b border-border/10 pb-1.5">
-                <span className="font-semibold text-foreground">Authorized Contact</span>
+                <span className="font-semibold text-foreground">Client Name</span>
                 <span>{proposal.agreementInformation?.clientName || 'N/A'}</span>
               </div>
-              <div className="flex justify-between">
+              <div className="flex justify-between border-b border-border/10 pb-1.5">
+                <span className="font-semibold text-foreground">Company Name</span>
+                <span>{proposal.agreementInformation?.companyName || 'N/A'}</span>
+              </div>
+              <div className="flex justify-between border-b border-border/10 pb-1.5">
+                <span className="font-semibold text-foreground">Industry</span>
+                <span>{proposal.agreementInformation?.industry || 'N/A'}</span>
+              </div>
+              <div className="flex justify-between border-b border-border/10 pb-1.5">
+                <span className="font-semibold text-foreground">Service Type</span>
+                <span>{proposal.agreementInformation?.serviceType || 'N/A'}</span>
+              </div>
+              <div className="flex justify-between border-b border-border/10 pb-1.5">
                 <span className="font-semibold text-foreground">Primary Email</span>
-                <span>{proposal.agreementInformation?.clientEmail || 'N/A'}</span>
+                <span>{proposal.agreementInformation?.email || 'N/A'}</span>
+              </div>
+              <div className="flex justify-between border-b border-border/10 pb-1.5">
+                <span className="font-semibold text-foreground">Phone Number</span>
+                <span>{proposal.agreementInformation?.phoneNumber || 'N/A'}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-semibold text-foreground">Website</span>
+                <span>{proposal.agreementInformation?.website || 'N/A'}</span>
               </div>
             </div>
           </InfoCard>
@@ -67,22 +83,34 @@ export function AgreementInfoSection({ onNext, onBack }: AgreementInfoSectionPro
           transition={{ duration: 0.4, delay: 0.1 }}
         >
           <InfoCard
-            title="Prepared By (The Agency)"
-            subtitle="Design & Development Partner"
+            title="Investment & Timeline"
+            subtitle="Commercial & Delivery Terms"
             icon={<Building2 className="h-5 w-5" />}
           >
             <div className="space-y-3 text-xs text-muted-foreground leading-relaxed">
               <div className="flex justify-between border-b border-border/10 pb-1.5">
-                <span className="font-semibold text-foreground">Agency Name</span>
-                <span>{brandConfig.agencyName || proposal.agreementInformation?.agencyName || 'N/A'}</span>
+                <span className="font-semibold text-foreground">Project Price</span>
+                <span className="text-primary font-bold">{proposal.agreementInformation?.projectPrice || 'N/A'}</span>
               </div>
               <div className="flex justify-between border-b border-border/10 pb-1.5">
-                <span className="font-semibold text-foreground">Consultant Architect</span>
-                <span>{proposal.agreementInformation?.agencyEmail || 'N/A'}</span>
+                <span className="font-semibold text-foreground">Payment Schedule</span>
+                <span>{proposal.agreementInformation?.paymentSchedule || 'N/A'}</span>
+              </div>
+              <div className="flex justify-between border-b border-border/10 pb-1.5">
+                <span className="font-semibold text-foreground">Timeline</span>
+                <span>{proposal.agreementInformation?.timeline || 'N/A'}</span>
+              </div>
+              <div className="flex justify-between border-b border-border/10 pb-1.5">
+                <span className="font-semibold text-foreground">Proposal ID</span>
+                <span>{proposal.agreementInformation?.proposalId || 'N/A'}</span>
+              </div>
+              <div className="flex justify-between border-b border-border/10 pb-1.5">
+                <span className="font-semibold text-foreground">Proposal Version</span>
+                <span>{proposal.agreementInformation?.proposalVersion || 'N/A'}</span>
               </div>
               <div className="flex justify-between">
-                <span className="font-semibold text-foreground">Effective Proposal Date</span>
-                <span>{proposal.agreementInformation?.proposalDate || proposal.date || proposal.createdAt || 'N/A'}</span>
+                <span className="font-semibold text-foreground">Date Prepared</span>
+                <span>{proposal.agreementInformation?.datePrepared || 'N/A'}</span>
               </div>
             </div>
           </InfoCard>
@@ -100,25 +128,8 @@ export function AgreementInfoSection({ onNext, onBack }: AgreementInfoSectionPro
           variant="info"
           icon={<FileCheck className="h-4.5 w-4.5 text-blue-500" />}
         >
-          By proceeding through the sections of this client portal, you are reviewing a professional statement of work. This proposal remains active and valid for acceptance for up to 30 days from the effective date.
+          By proceeding through the sections of this client portal, you are reviewing a professional statement of work. This proposal remains active and valid for acceptance.
         </CalloutBox>
-      </motion.div>
-
-      {/* Estimated Reading Time / Version Summary bar */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.3 }}
-        className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-card border border-border/40 bg-card/20 text-xs font-mono text-muted-foreground"
-      >
-        <div className="flex items-center gap-2">
-          <Calendar className="h-3.5 w-3.5 text-primary" />
-          <span>Effective: {proposal.agreementInformation?.proposalDate || proposal.date || proposal.createdAt || 'N/A'}</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <HelpCircle className="h-3.5 w-3.5 text-primary" />
-          <span>Approximate reading time: {proposal.projectOverview?.estimatedReadingTime || 'N/A'}</span>
-        </div>
       </motion.div>
 
       {/* Navigation Buttons */}

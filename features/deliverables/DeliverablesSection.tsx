@@ -29,16 +29,16 @@ interface DeliverableCardProps {
   key?: React.Key;
   title: string;
   description: string;
-  deliveryFormat: string;
-  estimatedDelivery: string;
+  deliveryFormat?: string;
+  estimatedDelivery?: string;
   index: number;
 }
 
 export function DeliverableCard({
   title,
   description,
-  deliveryFormat,
-  estimatedDelivery,
+  deliveryFormat = 'N/A',
+  estimatedDelivery = 'N/A',
   index,
 }: DeliverableCardProps) {
   // Select a decorative icon based on title or index
@@ -134,16 +134,16 @@ export function DeliverablesSection({ onNext, onBack }: DeliverablesSectionProps
       {deliverablesList.length === 0 ? (
         <EmptyState
           title="No deliverables specified"
-          description="The active agreement contains no delivery schedules. Please synchronize the proposal with the contract administrator."
+          description="The active agreement contains no delivery schedules."
           icon={<FileCheck className="h-6 w-6" />}
         />
       ) : (
         <Grid cols={1} smCols={2} mdCols={3} gap={5}>
-          {deliverablesList.map((item, idx) => (
+          {deliverablesList.map((item: any, idx: number) => (
             <DeliverableCard
-              key={item.id}
-              title={item.title}
-              description={item.description}
+              key={idx}
+              title={item.title || 'Deliverable'}
+              description={item.description || ''}
               deliveryFormat={item.deliveryFormat}
               estimatedDelivery={item.estimatedDelivery}
               index={idx}

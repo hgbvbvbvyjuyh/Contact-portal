@@ -44,8 +44,6 @@ export function AcceptanceSection({
 
   if (!proposal) return null;
 
-  const signatureData = null;
-
   // Track sub-step within Acceptance & E-Signature tab
   // 1: Acceptance Checkbox & Info
   // 2: Signature Placement
@@ -158,7 +156,7 @@ export function AcceptanceSection({
 
                 {/* Authorization Clause Callout */}
                 <div className="p-4 rounded bg-brand-blue/3 border border-brand-blue/10 text-xs sm:text-sm text-foreground/90 leading-relaxed font-sans">
-                  You confirm that you are authorized to approve this proposal on behalf of <strong className="text-brand-blue font-semibold">{proposal?.agreementInformation?.companyName || 'Nafirofiqul LLC'}</strong>.
+                  You confirm that you are authorized to approve this proposal on behalf of <strong className="text-brand-blue font-semibold">{proposal?.agreementInformation?.companyName || 'N/A'}</strong>.
                 </div>
               </div>
 
@@ -260,7 +258,7 @@ export function AcceptanceSection({
                       </div>
                       <div className="space-y-0.5 min-w-0">
                         <div className="text-[9px] text-muted-foreground font-mono uppercase tracking-wider">Representative</div>
-                        <div className="font-semibold truncate">{proposal?.agreementInformation?.clientName || 'Nafirofiqul'}</div>
+                        <div className="font-semibold truncate">{proposal?.agreementInformation?.clientName || 'N/A'}</div>
                       </div>
                     </div>
 
@@ -270,117 +268,100 @@ export function AcceptanceSection({
                       </div>
                       <div className="space-y-0.5 min-w-0">
                         <div className="text-[9px] text-muted-foreground font-mono uppercase tracking-wider">Email Address</div>
-                        <div className="font-semibold truncate text-brand-blue">{proposal?.agreementInformation?.clientEmail || 'Nafirofiqul@gmail.com'}</div>
+                        <div className="font-semibold truncate text-brand-blue">{proposal?.agreementInformation?.email || 'N/A'}</div>
                       </div>
                     </div>
-
-                    <div className="flex items-center gap-2.5">
-                      <div className="h-8 w-8 rounded-full bg-muted flex items-center justify-center border border-border/20 text-muted-foreground shrink-0">
-                        <Calendar className="h-4 w-4" />
-                      </div>
-                      <div className="space-y-0.5 min-w-0">
-                        <div className="text-[9px] text-muted-foreground font-mono uppercase tracking-wider">Signing Date</div>
-                        <div className="font-semibold truncate">
-                          {isSigned ? getFormattedDate() : getFormattedDate()}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <Divider />
-
-                  <div className="flex items-center gap-2.5 text-[10px] text-muted-foreground font-mono uppercase bg-secondary/45 p-3 rounded-button border border-border/30">
-                    <AlertCircle className="h-4.5 w-4.5 text-brand-blue shrink-0 animate-pulse" />
-                    Secure Digital Seal Active
                   </div>
                 </Card>
               </div>
 
-              {/* Right Column: Signature Pad */}
-              <div className="md:col-span-3">
-                {isSigned ? (
-                  <Card className="p-6 border border-emerald-500/25 bg-emerald-500/2 rounded-card h-full flex flex-col justify-between space-y-6">
-                    <div className="space-y-2">
-                      <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-widest font-mono uppercase bg-emerald-500/10 text-emerald-600 border border-emerald-500/15">
-                        CONTRACT SIGNED
-                      </span>
-                      <H3 className="text-base font-bold text-foreground">Agreement Signed successfully</H3>
-                      <p className="text-xs text-muted-foreground leading-relaxed font-sans">
-                        Your signature has been registered. You can now proceed to view your onboarding invoice.
-                      </p>
-                    </div>
-
-                    <div className="p-6 border border-dashed border-emerald-500/30 rounded bg-card/60 flex flex-col items-center justify-center text-center py-8">
-                      <span className="font-cursive text-3xl text-emerald-600 select-none italic tracking-wider">
-                        {signatureName}
-                      </span>
-                      <div className="mt-2 text-[10px] font-mono text-emerald-600/70">
-                        E-SIGNATURE VERIFIED
-                      </div>
-                    </div>
-
-                    <div className="flex justify-end">
-                      <Button
-                        onClick={onSign} // This goes to the invoice step
-                        className="h-10 px-6 font-semibold flex items-center gap-2 cursor-pointer"
-                      >
-                        Proceed to Invoice
-                        <ArrowRight className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </Card>
-                ) : (
-                  <Card className="p-6 md:p-8 border border-border/50 bg-card rounded-card h-full flex flex-col justify-between space-y-6 shadow-sm hover:border-brand-blue/10 transition-colors">
-                    <div className="space-y-2">
-                      <H3 className="text-xs font-bold text-foreground uppercase tracking-wider font-mono">
-                        Type Your Signature
-                      </H3>
-                      <p className="text-xs text-muted-foreground leading-relaxed font-sans">
-                        To sign this agreement, please type your legal name or business authorization name in the field below.
-                      </p>
-                    </div>
-
-                    <form onSubmit={handleSignatureSubmit} className="space-y-4">
-                      <div className="space-y-1.5">
-                        <label className="block text-[10px] font-bold text-muted-foreground uppercase font-mono tracking-wider">
-                          Type Legal Signature Name
-                        </label>
-                        <input
-                          type="text"
-                          value={typedName}
-                          onChange={(e) => setTypedName(e.target.value)}
-                          placeholder="Type 'Nafirofiqul' to authorize"
-                          className="w-full h-11 px-4 rounded-input border border-border/50 bg-background text-sm focus:outline-none focus:border-primary/80 focus:ring-4 focus:ring-primary/10 text-foreground font-sans placeholder:text-muted-foreground/50 transition-all duration-200 ease-out"
-                        />
+              {/* Right Column */}
+              <div className="md:col-span-3 flex flex-col">
+                <Card className="p-6 md:p-8 rounded-card border border-border/50 bg-card flex-1 flex flex-col justify-between space-y-6 shadow-low">
+                  {isSigned ? (
+                    <div className="space-y-6 flex-1 flex flex-col justify-between">
+                      <div className="space-y-2">
+                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-widest font-mono uppercase bg-emerald-500/10 text-emerald-600 border border-emerald-500/15">
+                          CONTRACT SIGNED
+                        </span>
+                        <H3 className="text-base font-bold text-foreground">Agreement Signed successfully</H3>
+                        <p className="text-xs text-muted-foreground leading-relaxed font-sans">
+                          Your signature has been registered. You can now proceed to view your onboarding invoice.
+                        </p>
                       </div>
 
-                      {/* Live cursive preview */}
-                      {typedName.trim() && (
-                        <div className="p-5 border border-dashed border-border/60 rounded bg-muted/10 flex flex-col items-center justify-center text-center">
-                          <span className="font-cursive text-2xl text-brand-blue select-none italic tracking-widest leading-none">
-                            {typedName}
-                          </span>
-                          <span className="text-[9px] font-mono text-muted-foreground mt-2 uppercase tracking-widest">
-                            Handwriting Preview
-                          </span>
+                      <div className="p-6 border border-dashed border-emerald-500/30 rounded bg-card/60 flex flex-col items-center justify-center text-center py-8">
+                        <span className="font-cursive text-3xl text-emerald-600 select-none italic tracking-wider">
+                          {signatureName}
+                        </span>
+                        <div className="mt-2 text-[10px] font-mono text-emerald-600/70">
+                          E-SIGNATURE VERIFIED
                         </div>
-                      )}
+                      </div>
 
-                      <Button 
-                        type="submit"
-                        disabled={!typedName.trim()}
-                        className="w-full h-11 cursor-pointer font-semibold flex items-center justify-center gap-2"
-                      >
-                        Sign Agreement & Commit
-                        <SignatureIcon className="h-4 w-4" />
-                      </Button>
-                    </form>
+                      <div className="flex justify-end">
+                        <Button
+                          onClick={onSign} // This goes to the invoice step
+                          className="h-10 px-6 font-semibold flex items-center gap-2 cursor-pointer"
+                        >
+                          Proceed to Invoice
+                          <ArrowRight className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="space-y-6 flex-1 flex flex-col justify-between">
+                      <div className="space-y-2">
+                        <H3 className="text-xs font-bold text-foreground uppercase tracking-wider font-mono">
+                          Type Your Signature
+                        </H3>
+                        <p className="text-xs text-muted-foreground leading-relaxed font-sans">
+                          To sign this agreement, please type your legal name or business authorization name in the field below.
+                        </p>
+                      </div>
 
-                    <p className="text-[10px] text-muted-foreground leading-relaxed font-sans">
-                      By submitting your electronic signature, you understand and agree that this digital signature holds full legal, binding equivalence with a physical signature.
-                    </p>
-                  </Card>
-                )}
+                      <form onSubmit={handleSignatureSubmit} className="space-y-4">
+                        <div className="space-y-1.5">
+                          <label className="block text-[10px] font-bold text-muted-foreground uppercase font-mono tracking-wider">
+                            Type Legal Signature Name
+                          </label>
+                          <input
+                            type="text"
+                            value={typedName}
+                            onChange={(e) => setTypedName(e.target.value)}
+                            placeholder="Type name to authorize"
+                            className="w-full h-11 px-4 rounded-input border border-border/50 bg-background text-sm focus:outline-none focus:border-primary/80 focus:ring-4 focus:ring-primary/10 text-foreground font-sans placeholder:text-muted-foreground/50 transition-all duration-200 ease-out"
+                          />
+                        </div>
+
+                        {/* Live cursive preview */}
+                        {typedName.trim() && (
+                          <div className="p-5 border border-dashed border-border/60 rounded bg-muted/10 flex flex-col items-center justify-center text-center">
+                            <span className="font-cursive text-2xl text-brand-blue select-none italic tracking-widest leading-none">
+                              {typedName}
+                            </span>
+                            <span className="text-[9px] font-mono text-muted-foreground mt-2 uppercase tracking-widest">
+                              Handwriting Preview
+                            </span>
+                          </div>
+                        )}
+
+                        <Button
+                          type="submit"
+                          disabled={!typedName.trim()}
+                          className="w-full h-11 cursor-pointer font-semibold flex items-center justify-center gap-2"
+                        >
+                          Sign Agreement & Commit
+                          <SignatureIcon className="h-4 w-4" />
+                        </Button>
+                      </form>
+
+                      <p className="text-[10px] text-muted-foreground leading-relaxed font-sans">
+                        By submitting your electronic signature, you understand and agree that this digital signature holds full legal, binding equivalence with a physical signature.
+                      </p>
+                    </div>
+                  )}
+                </Card>
               </div>
             </Grid>
 

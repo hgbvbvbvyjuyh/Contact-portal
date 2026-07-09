@@ -31,7 +31,7 @@ export function OwnershipSection({ onNext, onBack }: OwnershipSectionProps) {
 
   if (!proposal) return null;
 
-  const agencyName = brandConfig.agencyName || proposal.agreementInformation?.agencyName || 'Founding Partner';
+  const agencyName = proposal.agreementInformation?.companyName || 'N/A';
 
   // Container variants for clean staggering animations
   const containerVariants = {
@@ -105,7 +105,7 @@ export function OwnershipSection({ onNext, onBack }: OwnershipSectionProps) {
               {/* Content Paragraphs */}
               <div className="space-y-4 text-xs text-muted-foreground leading-relaxed font-sans">
                 <p>
-                  The AI systems, automation workflows, templates, methodologies, internal processes, and proprietary technology developed and maintained by <strong className="text-foreground font-medium">{agencyName}</strong> remain the intellectual property of <strong className="text-foreground font-medium">{agencyName}</strong>, unless otherwise agreed in writing.
+                  The AI systems, automation workflows, templates, methodologies, internal processes, and proprietary technology developed remain the intellectual property of our agency, unless otherwise agreed in writing.
                 </p>
                 <p>
                   During an active subscription, the client receives a non-exclusive right to use the agreed services as part of their ongoing partnership.

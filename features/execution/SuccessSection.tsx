@@ -39,20 +39,10 @@ export function SuccessSection({
 
   if (!proposal) return null;
 
-  const successData = null;
-
   const [toast, setToast] = useState<{ message: string; description: string; variant?: 'success' | 'info' | 'error' } | null>(null);
 
   const triggerToast = (message: string, description: string, variant: 'success' | 'info' = 'success') => {
     setToast({ message, description, variant });
-  };
-
-  const getTodayFormatted = () => {
-    return new Date().toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
   };
 
   const getKickoffDateFormatted = () => {
@@ -65,7 +55,7 @@ export function SuccessSection({
     });
   };
 
-  // Modern Timeline Milestones Data
+  // Modern Next Steps Milestones Data
   const onboardingTimeline = [
     {
       title: 'Proposal Completed',
@@ -131,7 +121,7 @@ export function SuccessSection({
               PARTNERSHIP LAUNCH ACTIVE
             </Badge>
             <H1 className="text-foreground font-black text-2xl md:text-3xl tracking-tight leading-tight">
-              Welcome Aboard, {proposal?.agreementInformation?.companyName || 'Nafirofiqul LLC'}!
+              Welcome Aboard, {proposal?.agreementInformation?.companyName || 'N/A'}!
             </H1>
             <p className="text-xs text-muted-foreground leading-relaxed max-w-lg mx-auto font-sans">
               Thank you for partnering with us. Your signed agreement and initial payment have been successfully verified, and we are preparing the next steps for our upcoming project kickoff.
@@ -148,7 +138,7 @@ export function SuccessSection({
             Signed Agreement
           </div>
           <div className="space-y-0.5">
-            <div className="text-xs font-bold text-foreground truncate">{signatureName || 'Nafirofiqul'}</div>
+            <div className="text-xs font-bold text-foreground truncate">{signatureName || 'N/A'}</div>
             <div className="text-[10px] text-muted-foreground font-mono font-medium">Agreement fully executed</div>
           </div>
         </Card>
@@ -160,7 +150,7 @@ export function SuccessSection({
           </div>
           <div className="space-y-0.5">
             <div className="text-xs font-bold text-foreground">
-              {new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(7000)}
+              {proposal?.agreementInformation?.projectPrice || 'Confirmed'}
             </div>
             <div className="text-[10px] text-muted-foreground font-mono font-medium">Receipt & Payment Confirmed</div>
           </div>
@@ -236,7 +226,7 @@ export function SuccessSection({
           </div>
         </Card>
 
-        {/* Agency Contacts & Verification Info Card */}
+        {/* Agency Contacts Card */}
         <div className="md:col-span-2 space-y-6 flex flex-col justify-between">
           <Card className="p-6 border border-border/40 bg-card/40 rounded-card flex-1 flex flex-col justify-between space-y-6">
             <div className="space-y-4">
@@ -250,8 +240,8 @@ export function SuccessSection({
                     <User className="h-4.5 w-4.5" />
                   </div>
                   <div className="space-y-0.5 min-w-0">
-                    <div className="text-[9px] text-muted-foreground font-mono">DEDICATED COORDINATOR</div>
-                    <div className="font-semibold truncate">{proposal?.agreementInformation?.agencyName || 'Dedicated Success Lead'}</div>
+                    <div className="text-[9px] text-muted-foreground font-mono">AUTHORIZED CONTACT</div>
+                    <div className="font-semibold truncate">{proposal?.agreementInformation?.clientName || 'N/A'}</div>
                   </div>
                 </div>
 
@@ -261,27 +251,7 @@ export function SuccessSection({
                   </div>
                   <div className="space-y-0.5 min-w-0">
                     <div className="text-[9px] text-muted-foreground font-mono">PARTNERSHIP SUPPORT</div>
-                    <div className="font-semibold truncate text-primary">{proposal?.agreementInformation?.agencyEmail || 'support@agency.design'}</div>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <div className="h-8.5 w-8.5 rounded-full bg-primary/10 border border-primary/20 text-primary flex items-center justify-center shrink-0">
-                    <Calendar className="h-4.5 w-4.5" />
-                  </div>
-                  <div className="space-y-0.5 min-w-0">
-                    <div className="text-[9px] text-muted-foreground font-mono">STRATEGY SESSION</div>
-                    <a 
-                      href="#schedule-kickoff" 
-                      onClick={(e) => {
-                        e.preventDefault();
-                        triggerToast('Strategy Session Scheduled', 'An interactive calendar invite has been sent to your registered email.', 'info');
-                      }} 
-                      className="font-semibold text-primary hover:underline flex items-center gap-1 cursor-pointer"
-                    >
-                      Book Kickoff Call
-                      <ExternalLink className="h-3 w-3" />
-                    </a>
+                    <div className="font-semibold truncate text-primary">{proposal?.agreementInformation?.email || 'N/A'}</div>
                   </div>
                 </div>
               </div>
@@ -296,7 +266,7 @@ export function SuccessSection({
                   PROJECT CONFIRMATION
                 </div>
                 <div className="text-[9px] text-muted-foreground font-mono space-y-0.5">
-                  <div>SIGNER: {signatureName || 'Nafirofiqul'}</div>
+                  <div>SIGNER: {signatureName || 'N/A'}</div>
                   <div>STATUS: SIGNED & PAID</div>
                   <div className="truncate">TRANSACTION ID: TXN-SUCCESS</div>
                 </div>

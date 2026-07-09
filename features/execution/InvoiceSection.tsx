@@ -42,13 +42,6 @@ export function InvoiceSection({
   const invoiceData = null;
   const [isDownloading, setIsDownloading] = useState(false);
 
-  const formatCurrency = (val: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(val);
-  };
-
   const getTodayFormatted = () => {
     return new Date().toLocaleDateString('en-US', {
       year: 'numeric',
@@ -65,19 +58,11 @@ export function InvoiceSection({
     }, 1200);
   };
 
-  const totalInvestment = 7000.00;
-  const depositDue = 3500.00;
-  const remainingBalance = 3500.00;
-  const projectName = proposal?.projectOverview?.projectName || 'Digital Onboarding Pipeline';
+  const projectPrice = proposal.agreementInformation?.projectPrice || 'N/A';
+  const paymentScheduleText = proposal.agreementInformation?.paymentSchedule || 'N/A';
+  const serviceType = proposal.agreementInformation?.serviceType || 'Client Proposal';
 
-  const includedItems = proposal?.deliverables?.map((d: any) => d.title) || [
-    'Digital Onboarding Infrastructure',
-    'Custom Portal Integration',
-    'Automated Webhooks & Workflows',
-    'Comprehensive System Testing',
-    'Secure Client Dashboard deployment',
-    'Dedicated Launch Support & SLA'
-  ];
+  const includedItems = proposal?.deliverables?.map((d: any) => d.title) || [];
 
   return (
     <div className="space-y-12 animate-in fade-in duration-300 font-sans">
@@ -120,36 +105,15 @@ export function InvoiceSection({
             <div className="space-y-4 font-sans text-sm">
               <div className="flex justify-between items-center py-2.5 border-b border-border/5">
                 <span className="text-muted-foreground font-medium">Project / Service</span>
-                <span className="text-foreground font-bold">{projectName}</span>
+                <span className="text-foreground font-bold">{serviceType}</span>
               </div>
               <div className="flex justify-between items-center py-2.5 border-b border-border/5">
-                <span className="text-muted-foreground font-medium">Project Investment</span>
-                <span className="text-foreground font-mono font-semibold">{formatCurrency(totalInvestment)}</span>
+                <span className="text-muted-foreground font-medium">Project Price</span>
+                <span className="text-foreground font-mono font-semibold">{projectPrice}</span>
               </div>
               <div className="flex justify-between items-center py-2.5 border-b border-border/5">
-                <span className="text-muted-foreground font-medium">Due Today (50%)</span>
-                <span className="text-foreground font-mono font-semibold">{formatCurrency(depositDue)}</span>
-              </div>
-              <div className="flex justify-between items-center py-2.5 border-b border-border/5">
-                <span className="text-muted-foreground font-medium">Remaining Balance</span>
-                <span className="text-foreground font-mono font-semibold">{formatCurrency(remainingBalance)}</span>
-              </div>
-              <div className="flex justify-between items-center py-2.5 border-b border-border/5">
-                <span className="text-muted-foreground font-medium">Tax</span>
-                <span className="text-foreground font-mono font-semibold">{formatCurrency(0.00)}</span>
-              </div>
-
-              {/* Total Due Today - Strongest visual emphasis */}
-              <div className="mt-4 p-5 rounded-button bg-brand-blue/5 border border-brand-blue/20 flex justify-between items-center">
-                <div className="space-y-0.5">
-                  <span className="text-xs font-mono font-bold text-brand-blue uppercase tracking-wider block">Total Due Today</span>
-                  <span className="text-[10px] text-muted-foreground block">50% initial implementation deposit</span>
-                </div>
-                <div className="text-right">
-                  <span className="text-2xl sm:text-3xl font-black text-foreground font-sans block leading-none">
-                    {formatCurrency(depositDue)}
-                  </span>
-                </div>
+                <span className="text-muted-foreground font-medium">Payment Terms</span>
+                <span className="text-foreground font-sans text-xs">{paymentScheduleText}</span>
               </div>
             </div>
           </Card>
@@ -187,11 +151,7 @@ export function InvoiceSection({
             
             <div className="space-y-3.5">
               <div className="flex justify-between items-center border-b border-border/10 pb-3">
-                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-muted-foreground">Invoice Number</span>
-                <span className="text-xs font-mono font-bold text-foreground">{invoiceData?.invoiceNumber || 'INV-2026-0049'}</span>
-              </div>
-              <div className="flex justify-between items-center border-b border-border/10 pb-3">
-                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-muted-foreground">Payment Status</span>
+                <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-muted-foreground">Invoice Status</span>
                 <Badge variant={isPaid ? 'success' : 'warning'} className="font-semibold">
                   {isPaid ? 'PAID' : 'AWAITING PAYMENT'}
                 </Badge>
@@ -208,28 +168,30 @@ export function InvoiceSection({
           </Card>
 
           {/* 4. Included in this Payment Card */}
-          <Card className="rounded-card border border-border/50 bg-card p-6 md:p-8 shadow-low space-y-5 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-brand-blue/3 rounded-full blur-2xl pointer-events-none -z-10" />
-            
-            <div className="space-y-1">
-              <H3 className="text-sm font-bold text-foreground">Included in this Payment</H3>
-              <p className="text-xs text-muted-foreground">Directly assigned capabilities and integrations</p>
-            </div>
+          {includedItems.length > 0 && (
+            <Card className="rounded-card border border-border/50 bg-card p-6 md:p-8 shadow-low space-y-5 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-brand-blue/3 rounded-full blur-2xl pointer-events-none -z-10" />
 
-            <Divider className="opacity-40" />
+              <div className="space-y-1">
+                <H3 className="text-sm font-bold text-foreground">Included in this Payment</H3>
+                <p className="text-xs text-muted-foreground">Directly assigned capabilities and integrations</p>
+              </div>
 
-            {/* Checklist */}
-            <div className="space-y-3">
-              {includedItems.map((item, idx) => (
-                <div key={idx} className="flex gap-3 items-center">
-                  <div className="h-5.5 w-5.5 rounded-full bg-brand-blue/10 text-brand-blue flex items-center justify-center shrink-0 border border-brand-blue/15">
-                    <Check className="h-3 w-3" strokeWidth={3} />
+              <Divider className="opacity-40" />
+
+              {/* Checklist */}
+              <div className="space-y-3">
+                {includedItems.map((item, idx) => (
+                  <div key={idx} className="flex gap-3 items-center">
+                    <div className="h-5.5 w-5.5 rounded-full bg-brand-blue/10 text-brand-blue flex items-center justify-center shrink-0 border border-brand-blue/15">
+                      <Check className="h-3 w-3" strokeWidth={3} />
+                    </div>
+                    <span className="text-xs font-medium text-foreground/90">{item}</span>
                   </div>
-                  <span className="text-xs font-medium text-foreground/90">{item}</span>
-                </div>
-              ))}
-            </div>
-          </Card>
+                ))}
+              </div>
+            </Card>
+          )}
 
         </div>
 

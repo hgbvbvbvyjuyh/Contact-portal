@@ -32,9 +32,8 @@ interface TimelineItemProps {
   key?: React.Key;
   title: string;
   description: string;
-  duration: string;
   dueDate: string;
-  status: TimelineStatus;
+  status: string;
   index: number;
   total: number;
 }
@@ -42,20 +41,21 @@ interface TimelineItemProps {
 export function TimelineItem({
   title,
   description,
-  duration,
   dueDate,
   status,
   index,
   total,
 }: TimelineItemProps) {
-  const badgeConfig = TIMELINE_STATUS_BADGES[status] || {
-    label: status,
+  // Map or fallback status formatting
+  const rawStatus = (status || 'UPCOMING').toUpperCase();
+  const badgeConfig = TIMELINE_STATUS_BADGES[rawStatus as TimelineStatus] || {
+    label: rawStatus,
     className: 'bg-muted/10 text-muted-foreground border-muted/20',
   };
 
-  const isCompleted = status === TimelineStatus.COMPLETED;
-  const isCurrent = status === TimelineStatus.CURRENT;
-  const isLocked = status === TimelineStatus.LOCKED;
+  const isCompleted = rawStatus === 'COMPLETED';
+  const isCurrent = rawStatus === 'CURRENT';
+  const isLocked = rawStatus === 'LOCKED';
 
   // Determine dot visuals
   const getDotStyles = () => {
@@ -68,7 +68,7 @@ export function TimelineItem({
     if (isCurrent) {
       return {
         dotClass: 'bg-primary border-primary text-primary-foreground shadow-[0_0_15px_rgba(var(--primary-rgb,59,130,246),0.5)] animate-pulse',
-        icon: <Sparkles className="h-4.5 w-4.5 animate-spin-slow" />,
+        icon: <Sparkles className="h-4.5 w-4.5" />,
       };
     }
     if (isLocked) {
@@ -129,10 +129,6 @@ export function TimelineItem({
 
           {/* Schedule pills */}
           <div className="flex flex-col sm:items-end gap-1 font-mono text-[11px] shrink-0 text-muted-foreground">
-            <span className="flex items-center gap-1 bg-muted/20 px-2 py-0.5 rounded border border-border/10">
-              <Clock className="h-3 w-3 text-muted-foreground/70" />
-              Duration: {duration}
-            </span>
             <span className="flex items-center gap-1 text-primary font-semibold">
               <Calendar className="h-3 w-3" />
               Target: {dueDate}
@@ -140,9 +136,11 @@ export function TimelineItem({
           </div>
         </div>
 
-        <p className="text-xs text-muted-foreground leading-relaxed max-w-3xl font-sans">
-          {description}
-        </p>
+        {description && (
+          <p className="text-xs text-muted-foreground leading-relaxed max-w-3xl font-sans">
+            {description}
+          </p>
+        )}
       </Card>
     </motion.div>
   );
@@ -175,18 +173,17 @@ export function TimelineSection({ onNext, onBack }: TimelineSectionProps) {
       {executionTimeline.length === 0 ? (
         <EmptyState
           title="No milestones currently scheduled"
-          description="The active project file has no designated execution milestones. Please coordinate with your design partner."
+          description="The active project file has no designated execution milestones."
         />
       ) : (
         <div className="pt-4 max-w-4xl mx-auto">
           {executionTimeline.map((item: any, idx: number) => (
             <TimelineItem
-              key={item.id}
-              title={item.title}
+              key={idx}
+              title={item.title || 'Milestone'}
               description={item.description || ''}
-              duration="1 Week"
               dueDate={item.dueDate || 'TBD'}
-              status={item.status}
+              status={item.status || 'UPCOMING'}
               index={idx}
               total={executionTimeline.length}
             />
