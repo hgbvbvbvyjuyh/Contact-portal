@@ -47,15 +47,15 @@ export function AgreementInfoSection({ onNext, onBack }: AgreementInfoSectionPro
             <div className="space-y-3 text-xs text-muted-foreground leading-relaxed">
               <div className="flex justify-between border-b border-border/10 pb-1.5">
                 <span className="font-semibold text-foreground">Company Name</span>
-                <span>{proposal.client.company}</span>
+                <span>{proposal.agreementInformation?.companyName || proposal.client?.company}</span>
               </div>
               <div className="flex justify-between border-b border-border/10 pb-1.5">
                 <span className="font-semibold text-foreground">Authorized Contact</span>
-                <span>{proposal.client.name}</span>
+                <span>{proposal.client?.name || 'N/A'}</span>
               </div>
               <div className="flex justify-between">
                 <span className="font-semibold text-foreground">Primary Email</span>
-                <span>{proposal.client.email}</span>
+                <span>{proposal.client?.email || 'N/A'}</span>
               </div>
             </div>
           </InfoCard>
@@ -74,15 +74,15 @@ export function AgreementInfoSection({ onNext, onBack }: AgreementInfoSectionPro
             <div className="space-y-3 text-xs text-muted-foreground leading-relaxed">
               <div className="flex justify-between border-b border-border/10 pb-1.5">
                 <span className="font-semibold text-foreground">Agency Name</span>
-                <span>{brandConfig.agencyName || proposal.agency.agencyName}</span>
+                <span>{brandConfig.agencyName || proposal.agency?.agencyName || 'N/A'}</span>
               </div>
               <div className="flex justify-between border-b border-border/10 pb-1.5">
                 <span className="font-semibold text-foreground">Consultant Architect</span>
-                <span>{proposal.agency.email}</span>
+                <span>{proposal.agency?.email || 'N/A'}</span>
               </div>
               <div className="flex justify-between">
                 <span className="font-semibold text-foreground">Effective Proposal Date</span>
-                <span>{proposal.date || proposal.createdAt}</span>
+                <span>{proposal.date || proposal.createdAt || 'N/A'}</span>
               </div>
             </div>
           </InfoCard>
@@ -113,11 +113,11 @@ export function AgreementInfoSection({ onNext, onBack }: AgreementInfoSectionPro
       >
         <div className="flex items-center gap-2">
           <Calendar className="h-3.5 w-3.5 text-primary" />
-          <span>Effective: {proposal.date || proposal.createdAt}</span>
+          <span>Effective: {proposal.date || proposal.createdAt || 'N/A'}</span>
         </div>
         <div className="flex items-center gap-2">
           <HelpCircle className="h-3.5 w-3.5 text-primary" />
-          <span>Approximate reading time: {proposal.project.estimatedReadingTime}</span>
+          <span>Approximate reading time: {proposal.project?.estimatedReadingTime || 'N/A'}</span>
         </div>
       </motion.div>
 

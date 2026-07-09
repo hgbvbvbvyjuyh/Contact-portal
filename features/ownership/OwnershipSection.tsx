@@ -31,7 +31,7 @@ export function OwnershipSection({ onNext, onBack }: OwnershipSectionProps) {
 
   if (!proposal) return null;
 
-  const agencyName = brandConfig.agencyName || proposal.agency.agencyName || 'Founding Partner';
+  const agencyName = brandConfig.agencyName || proposal.agency?.agencyName || 'Founding Partner';
 
   // Container variants for clean staggering animations
   const containerVariants = {

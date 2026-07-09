@@ -37,7 +37,7 @@ export function InvestmentSection({ onNext, onBack }: InvestmentSectionProps) {
   const depositDue = proposal?.pricing?.deposit || 3500.00;
   const remainingBalance = proposal?.pricing?.remainingBalance || 3500.00;
   const projectName = proposal?.project?.projectName || 'Digital Onboarding Pipeline';
-  const clientName = proposal?.client?.company || 'Nafirofiqul LLC';
+  const clientName = proposal.agreementInformation?.companyName || proposal?.client?.company || 'Nafirofiqul LLC';
 
   const formatCurrency = (val: number) => {
     return new Intl.NumberFormat('en-US', {

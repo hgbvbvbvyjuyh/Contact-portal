@@ -131,7 +131,7 @@ export function SuccessSection({
               PARTNERSHIP LAUNCH ACTIVE
             </Badge>
             <H1 className="text-foreground font-black text-2xl md:text-3xl tracking-tight leading-tight">
-              Welcome Aboard, {proposal?.client?.company || 'Nafirofiqul LLC'}!
+              Welcome Aboard, {proposal?.agreementInformation?.companyName || proposal?.client?.company || 'Nafirofiqul LLC'}!
             </H1>
             <p className="text-xs text-muted-foreground leading-relaxed max-w-lg mx-auto font-sans">
               Thank you for partnering with us. Your signed agreement and initial payment have been successfully verified, and we are preparing the next steps for our upcoming project kickoff.
