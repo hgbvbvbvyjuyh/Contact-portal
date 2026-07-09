@@ -34,7 +34,7 @@ export function CoverSection({ onStartReview, isSigned = false, isPaid = false }
     {
       id: 'review',
       title: 'Review Proposal',
-      description: 'Read the proposal, project scope, deliverables, and financial details carefully.',
+      description: 'Read the proposal carefully.',
       icon: Eye,
       status: (isSigned || isPaid) ? 'completed' : 'current' as const,
       badge: (isSigned || isPaid) ? 'Completed' : 'Active'
@@ -42,7 +42,7 @@ export function CoverSection({ onStartReview, isSigned = false, isPaid = false }
     {
       id: 'agreement',
       title: 'Accept Agreement',
-      description: 'Review and accept the project agreement covenants and legal terms.',
+      description: 'Review and accept the project agreement.',
       icon: FileCheck2,
       status: isPaid ? 'completed' : isSigned ? 'completed' : 'upcoming' as const,
       badge: (isSigned || isPaid) ? 'Completed' : 'Next Step'
@@ -50,7 +50,7 @@ export function CoverSection({ onStartReview, isSigned = false, isPaid = false }
     {
       id: 'payment',
       title: 'Complete Payment',
-      description: 'Pay the deposit invoice using your preferred secure method.',
+      description: 'Pay the deposit invoice.',
       icon: CreditCard,
       status: isPaid ? 'completed' : isSigned ? 'current' : 'upcoming' as const,
       badge: isPaid ? 'Completed' : isSigned ? 'Awaiting Deposit' : 'Locked'
@@ -58,7 +58,7 @@ export function CoverSection({ onStartReview, isSigned = false, isPaid = false }
     {
       id: 'onboarding',
       title: 'Client Onboarding',
-      description: 'Receive onboarding details, complete questionnaires, and gain workspace access.',
+      description: 'Receive onboarding details.',
       icon: Users,
       status: isPaid ? 'current' : 'upcoming' as const,
       badge: isPaid ? 'In Progress' : 'Awaiting Payment'
@@ -66,7 +66,7 @@ export function CoverSection({ onStartReview, isSigned = false, isPaid = false }
     {
       id: 'development',
       title: 'Development Begins',
-      description: 'Active design and development kickoff based on scheduled sprint staging.',
+      description: 'Active design and development kickoff.',
       icon: Rocket,
       status: 'upcoming' as const,
       badge: isPaid ? 'Scheduled' : 'Awaiting Onboarding'
@@ -77,14 +77,14 @@ export function CoverSection({ onStartReview, isSigned = false, isPaid = false }
     <div className="space-y-12 animate-in fade-in duration-300">
       {/* 1. Elite Cover Hero Component */}
       <CoverHero
-        agencyName={brandConfig.agencyName || proposal.agreementInformation?.companyName || 'The Agency'}
-        proposalTitle={`${proposal.agreementInformation?.serviceType || 'Project'} Proposal`}
-        projectName={proposal.agreementInformation?.serviceType || 'Project'}
-        clientName={proposal.agreementInformation?.clientName || 'The Client'}
-        welcomeMessage={`Welcome to your custom digital onboarding pipeline. This interactive portal allows you to review structural details, verify sprint releases, and authorize agreement covenants digitally.`}
+        agencyName={proposal.agreementInformation?.companyName || ''}
+        proposalTitle={proposal.agreementInformation?.serviceType || ''}
+        projectName={proposal.agreementInformation?.serviceType || ''}
+        clientName={proposal.agreementInformation?.companyName || ''}
+        welcomeMessage=""
         preparedDate={proposal.agreementInformation?.datePrepared || ''}
-        version={proposal.agreementInformation?.proposalVersion || '1.0.0'}
-        readingTime="8 min read"
+        version={proposal.agreementInformation?.proposalVersion || ''}
+        readingTime=""
         onStartReview={onStartReview}
       />
 
