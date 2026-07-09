@@ -25,7 +25,7 @@ interface CoverSectionProps {
 }
 
 export function CoverSection({ onStartReview, isSigned = false, isPaid = false }: CoverSectionProps) {
-  const { brandConfig, proposal } = useTheme();
+  const { proposal } = useTheme();
 
   if (!proposal) return null;
 
@@ -75,16 +75,11 @@ export function CoverSection({ onStartReview, isSigned = false, isPaid = false }
 
   return (
     <div className="space-y-12 animate-in fade-in duration-300">
-      {/* 1. Elite Cover Hero Component */}
+      {/* 1. Static and dynamically bound Cover Hero Component */}
       <CoverHero
-        agencyName={proposal.agreementInformation?.companyName || ''}
-        proposalTitle={proposal.agreementInformation?.serviceType || ''}
-        projectName={proposal.agreementInformation?.serviceType || ''}
-        clientName={proposal.agreementInformation?.companyName || ''}
-        welcomeMessage=""
-        preparedDate={proposal.agreementInformation?.datePrepared || ''}
-        version={proposal.agreementInformation?.proposalVersion || ''}
-        readingTime=""
+        serviceType={proposal.agreementInformation?.serviceType}
+        companyName={proposal.agreementInformation?.companyName}
+        datePrepared={proposal.agreementInformation?.datePrepared}
         onStartReview={onStartReview}
       />
 
