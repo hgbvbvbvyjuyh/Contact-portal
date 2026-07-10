@@ -105,23 +105,31 @@ export function ScopeSection({ onNext, onBack }: ScopeSectionProps) {
           icon={<Layers className="h-5 w-5 text-primary" />}
         />
 
-        {!proposal.scopeOfWork ? (
+        {!proposal.scopeOfWork || !Array.isArray(proposal.scopeOfWork) || proposal.scopeOfWork.length === 0 ? (
           <EmptyState
             title="No active scope items defined"
             description="The current proposal dataset does not contain active, in-scope development elements."
             icon={<FolderMinus className="h-6 w-6" />}
           />
         ) : (
-          <Card className="p-6 md:p-8 border border-border/40 bg-card/50 backdrop-blur-sm transition-all duration-200 rounded-card font-sans">
-            <p className="text-sm text-foreground/90 leading-relaxed whitespace-pre-wrap font-sans">
-              {proposal.scopeOfWork}
-            </p>
-          </Card>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {proposal.scopeOfWork.map((item: any, idx: number) => (
+              <Card key={idx} className="p-5 border border-border/40 bg-card/50 hover:border-primary/20 hover:shadow-sm transition-all duration-200 rounded-card font-sans flex items-start gap-3">
+                <div className="h-6 w-6 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0 mt-0.5">
+                  <CheckCircle2 className="h-4 w-4" />
+                </div>
+                <div className="space-y-1">
+                  <H4 className="text-sm font-semibold text-foreground">{item.title}</H4>
+                  <p className="text-xs text-muted-foreground leading-relaxed">{item.description}</p>
+                </div>
+              </Card>
+            ))}
+          </div>
         )}
       </div>
 
       {/* 2. Exclusions Section (Out of Scope) */}
-      {proposal.outOfScope && (
+      {proposal.outOfScope && Array.isArray(proposal.outOfScope) && proposal.outOfScope.length > 0 && (
         <div className="space-y-6 pt-4 border-t border-border/10">
           <SectionHeader
             title="Exclusions & Boundaries"
@@ -130,11 +138,19 @@ export function ScopeSection({ onNext, onBack }: ScopeSectionProps) {
             icon={<Ban className="h-5 w-5 text-amber-500" />}
           />
 
-          <Card className="p-6 md:p-8 border border-amber-500/10 bg-amber-500/2 transition-all duration-200 rounded-card font-sans">
-            <p className="text-sm text-foreground/95 leading-relaxed whitespace-pre-wrap font-sans">
-              {proposal.outOfScope}
-            </p>
-          </Card>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {proposal.outOfScope.map((item: any, idx: number) => (
+              <Card key={idx} className="p-5 border border-amber-500/10 bg-amber-500/2 hover:border-amber-500/20 transition-all duration-200 rounded-card font-sans flex items-start gap-3">
+                <div className="h-6 w-6 rounded-full bg-amber-500/10 text-amber-500 flex items-center justify-center shrink-0 mt-0.5">
+                  <Ban className="h-3.5 w-3.5" />
+                </div>
+                <div className="space-y-1">
+                  <H4 className="text-sm font-semibold text-foreground">{item.title}</H4>
+                  <p className="text-xs text-muted-foreground leading-relaxed">{item.description}</p>
+                </div>
+              </Card>
+            ))}
+          </div>
         </div>
       )}
 
