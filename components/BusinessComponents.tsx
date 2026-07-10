@@ -10,7 +10,7 @@ import { Card } from './Card';
 import { Button } from './Button';
 import { Badge } from './Badge';
 import { H3, H4 } from './Typography';
-import { ArrowRight, Calendar, Info, Clock, Shield, Check, Award, Compass } from 'lucide-react';
+import { ArrowRight, Calendar, Info, Clock, Shield, Check, Award, Compass, ShieldCheck } from 'lucide-react';
 
 /* ==========================================================================
    1. Cover Hero Component
@@ -48,23 +48,25 @@ export function CoverHero({
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
-          className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border/30 pb-6"
+          className="flex flex-row items-center justify-between gap-4 border-b border-border/30 pb-6"
         >
-          <div className="space-y-1">
-            <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-widest">
-              Proposal & Agreement Portal
-            </p>
-            <p className="text-xs font-bold text-primary uppercase tracking-widest">
-              DIGITAL SERVICES AGREEMENT
-            </p>
+          <div className="flex items-center gap-3">
+            <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-white dark:bg-card border border-primary/20 shadow-sm shrink-0">
+              <ShieldCheck className="h-5 w-5 text-primary" />
+            </div>
+            <div className="space-y-1">
+              <p className="text-[11px] font-semibold text-muted-foreground uppercase tracking-widest">
+                Proposal & Agreement Portal
+              </p>
+            </div>
           </div>
-          <div className="flex items-center gap-2 sm:self-end">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-primary/5 text-primary border border-primary/10">
-              <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+          <div className="flex items-center gap-2 shrink-0">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-muted text-muted-foreground border border-border/40">
+              <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground animate-pulse" />
               Version: {proposalVersion || 'V1.0.0'}
             </span>
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-muted text-muted-foreground border border-border/40">
-              <Clock className="h-3.5 w-3.5 text-muted-foreground" />
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-primary/5 text-primary border border-primary/10">
+              <Clock className="h-3.5 w-3.5 text-primary" />
               8 MIN READ
             </span>
           </div>
@@ -78,22 +80,23 @@ export function CoverHero({
             transition={{ duration: 0.5, delay: 0.1 }}
             className="space-y-4"
           >
+            <div className="flex items-center gap-3 mb-2">
+              <div className="h-[2px] w-8 bg-primary rounded-full" />
+              <span className="text-xs md:text-sm font-bold tracking-[0.25em] text-primary uppercase">
+                Digital Services Agreement
+              </span>
+            </div>
+
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-foreground leading-tight md:leading-[1.1]">
               PROJECT PROPOSAL
             </h1>
 
-            <div className="text-sm sm:text-base text-muted-foreground max-w-2xl leading-relaxed space-y-3 font-sans">
-              <p className="font-semibold text-foreground">
-                Thank you for considering our services.
+            <div className="text-sm sm:text-base text-muted-foreground max-w-2xl leading-[1.7] space-y-4 font-sans text-left">
+              <p>
+                Thank you for considering our services. This proposal has been prepared specifically for your business based on the information provided during our discovery process.
               </p>
               <p>
-                This proposal has been prepared specifically for your business based on the information provided during our discovery process.
-              </p>
-              <p>
-                Inside this proposal you will find the project overview, scope of work, deliverables, timeline, pricing, and next steps.
-              </p>
-              <p className="font-medium text-foreground">
-                We look forward to working with you.
+                Inside this proposal you will find the project overview, scope of work, deliverables, timeline, pricing, and next steps. We look forward to working with you.
               </p>
             </div>
           </motion.div>
