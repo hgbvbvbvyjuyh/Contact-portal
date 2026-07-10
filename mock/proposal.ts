@@ -27,8 +27,34 @@ export const MOCK_PROPOSAL: Proposal = {
     projectRationale: 'To sustain high-growth momentum and ensure delivery precision, establishing a modern digital onboarding pipeline is a critical operational priority.',
     expectedOutcomes: 'Dynamically updated styles, framer-motion micro-animations, fast e-signatures, and persistent state management fallbacks.'
   },
-  scopeOfWork: 'Dynamic Whitelabel Container, 15-Step Progress & Stepper Engine, Stripe Gateway & Checkout Simulation, Offline Client State Engine',
-  outOfScope: 'Custom Multi-tenant Domain Hosting and server-side configurations.',
+  scopeOfWork: [
+    {
+      title: 'Dynamic Whitelabel Container',
+      description: 'Custom styling container with dynamic branding integration.'
+    },
+    {
+      title: 'Progress & Stepper Engine',
+      description: '15-Step dynamic progress tracker and navigation state manager.'
+    },
+    {
+      title: 'Stripe Gateway & Checkout',
+      description: 'Stripe simulation and checkout validation workflow.'
+    },
+    {
+      title: 'Offline Client State Engine',
+      description: 'Local persistence manager to prevent data loss.'
+    }
+  ],
+  outOfScope: [
+    {
+      title: 'Custom Multi-tenant Domain Hosting',
+      description: 'Provisioning or configuring custom domain names for multiple clients.'
+    },
+    {
+      title: 'Server-side Configurations',
+      description: 'Setting up custom server networks or hosting infrastructure.'
+    }
+  ],
   deliverables: [
     {
       title: 'Dynamic Whitelabel Codebase',
@@ -57,34 +83,29 @@ export const MOCK_PROPOSAL: Proposal = {
   ],
   projectTimeline: [
     {
-      title: 'Sprint 1 Kickoff & Branding Tokenization',
-      description: 'Set up design system foundations, design CSS variables, and prepare theme configuration hooks.',
-      dueDate: 'July 10, 2026',
-      status: 'COMPLETED'
+      phase: 'Sprint 1 Kickoff & Branding Tokenization',
+      duration: 'Week 1',
+      activities: 'Set up design system foundations, design CSS variables, and prepare theme configuration hooks.'
     },
     {
-      title: 'Sprint 2 Progress Engine Implementation',
-      description: 'Develop interactive stepper steps, test slide transitions, and implement input field components.',
-      dueDate: 'July 17, 2026',
-      status: 'CURRENT'
+      phase: 'Sprint 2 Progress Engine Implementation',
+      duration: 'Week 2',
+      activities: 'Develop interactive stepper steps, test slide transitions, and implement input field components.'
     },
     {
-      title: 'Sprint 3 Checkout Integration',
-      description: 'Establish secure sandbox environments, deploy mock gateways, and validate payment state machines.',
-      dueDate: 'July 24, 2026',
-      status: 'UPCOMING'
+      phase: 'Sprint 3 Checkout Integration',
+      duration: 'Week 3',
+      activities: 'Establish secure sandbox environments, deploy mock gateways, and validate payment state machines.'
     },
     {
-      title: 'Sprint 4 Offline Persistence & Polish',
-      description: 'Implement localStorage storage mechanisms, debug blank page exceptions, and optimize build bundles.',
-      dueDate: 'July 31, 2026',
-      status: 'UPCOMING'
+      phase: 'Sprint 4 Offline Persistence & Polish',
+      duration: 'Week 4',
+      activities: 'Implement localStorage storage mechanisms, debug blank page exceptions, and optimize build bundles.'
     },
     {
-      title: 'Production Deploy & Sign-off',
-      description: 'Launch production onboarding, perform functional walkthrough, and secure end-to-end e-signatures.',
-      dueDate: 'August 7, 2026',
-      status: 'LOCKED'
+      phase: 'Production Deploy & Sign-off',
+      duration: 'Week 5',
+      activities: 'Launch production onboarding, perform functional walkthrough, and secure end-to-end e-signatures.'
     }
   ]
 };
