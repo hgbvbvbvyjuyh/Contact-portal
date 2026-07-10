@@ -52,16 +52,34 @@ export interface ProjectOverview {
   expectedOutcomes?: string;
 }
 
+export interface ScopeItem {
+  title: string;
+  description: string;
+}
+
+export interface DeliverableItem {
+  title: string;
+  description: string;
+  deliveryFormat?: string;
+  estimatedDelivery?: string;
+}
+
+export interface TimelinePhase {
+  phase: string;
+  duration: string;
+  activities: string;
+}
+
 /**
  * Top-level Proposal Domain Model exactly matching Supabase JSON schema
  */
 export interface Proposal {
   agreementInformation?: AgreementInformation;
   projectOverview?: ProjectOverview;
-  scopeOfWork?: string;
-  outOfScope?: string;
-  deliverables?: any[];
-  projectTimeline?: any[];
+  scopeOfWork?: ScopeItem[] | string;
+  outOfScope?: ScopeItem[] | string;
+  deliverables?: DeliverableItem[];
+  projectTimeline?: TimelinePhase[];
   agency?: AgencyDetails;
   client?: ClientDetails;
 }
