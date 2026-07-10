@@ -44,46 +44,6 @@ export function TimelineItem({
   index,
   total,
 }: TimelineItemProps) {
-  // Determine status dynamically based on index to retain the beautiful premium UX styling
-  const status = index === 0 ? 'COMPLETED' : index === 1 ? 'CURRENT' : index === total - 1 ? 'LOCKED' : 'UPCOMING';
-  const rawStatus = status.toUpperCase();
-  const badgeConfig = TIMELINE_STATUS_BADGES[rawStatus as TimelineStatus] || {
-    label: rawStatus,
-    className: 'bg-muted/10 text-muted-foreground border-muted/20',
-  };
-
-  const isCompleted = rawStatus === 'COMPLETED';
-  const isCurrent = rawStatus === 'CURRENT';
-  const isLocked = rawStatus === 'LOCKED';
-
-  // Determine dot visuals
-  const getDotStyles = () => {
-    if (isCompleted) {
-      return {
-        dotClass: 'bg-emerald-500 border-emerald-500 text-white shadow-[0_0_12px_rgba(16,185,129,0.3)]',
-        icon: <CheckCircle2 className="h-4.5 w-4.5" />,
-      };
-    }
-    if (isCurrent) {
-      return {
-        dotClass: 'bg-primary border-primary text-primary-foreground shadow-[0_0_15px_rgba(var(--primary-rgb,59,130,246),0.5)] animate-pulse',
-        icon: <Sparkles className="h-4.5 w-4.5" />,
-      };
-    }
-    if (isLocked) {
-      return {
-        dotClass: 'bg-background border-border text-muted-foreground/40',
-        icon: <Lock className="h-3.5 w-3.5" />,
-      };
-    }
-    return {
-      dotClass: 'bg-background border-border text-muted-foreground',
-      icon: <Clock className="h-4 w-4" />,
-    };
-  };
-
-  const dotVisuals = getDotStyles();
-
   return (
     <motion.div
       initial={{ opacity: 0, x: -15 }}
@@ -98,29 +58,14 @@ export function TimelineItem({
       )}
 
       {/* Decorative Dot Icon */}
-      <div className={`absolute left-0 top-1 h-9 w-9 rounded-full border-2 flex items-center justify-center transition-all duration-200 ${dotVisuals.dotClass}`}>
-        {dotVisuals.icon}
+      <div className="absolute left-0 top-1 h-9 w-9 rounded-full border-2 border-primary/20 bg-card text-primary flex items-center justify-center transition-all duration-200 shadow-sm">
+        <Clock className="h-4.5 w-4.5" />
       </div>
 
       {/* Card Wrapper for Timeline Metadata */}
-      <Card className={`p-5 md:p-6 border transition-all duration-200 rounded-card ${
-        isCurrent 
-          ? 'border-primary/30 bg-primary/2 dark:bg-primary/1 shadow-medium hover:border-primary/40' 
-          : 'border-border/40 bg-card/40 hover:bg-card/75 hover:border-border/60 hover:shadow-sm'
-       }`}>
+      <Card className="p-5 md:p-6 border border-border/40 bg-card/40 hover:bg-card/75 hover:border-border/60 hover:shadow-sm transition-all duration-200 rounded-card">
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3">
           <div className="space-y-1">
-            <div className="flex items-center gap-2 flex-wrap">
-              <Badge variant={isCompleted ? 'success' : isCurrent ? 'brand' : 'neutral'} size="sm" className={badgeConfig.className}>
-                {badgeConfig.label.toUpperCase()}
-              </Badge>
-              {isCurrent && (
-                <span className="text-[10px] uppercase font-bold text-primary font-mono tracking-wider flex items-center gap-1 animate-pulse">
-                  <span className="h-1.5 w-1.5 rounded-full bg-primary" />
-                  Active Release Phase
-                </span>
-              )}
-            </div>
             <H4 className="text-sm font-bold text-foreground leading-snug group-hover:text-primary transition-colors">
               {phase}
             </H4>
