@@ -9,152 +9,187 @@ import { useTheme } from '@/components/ThemeProvider';
 import { Card } from '@/components/Card';
 import { Button } from '@/components/Button';
 import { Badge } from '@/components/Badge';
-import { Divider, Grid, Stack } from '@/components/Layout';
-import { H2, H3, H4, Body } from '@/components/Typography';
+import { Divider, Stack } from '@/components/Layout';
+import { H3, H4 } from '@/components/Typography';
+import { SectionHeader, EmptyState } from '@/features/scope/ScopeSection';
+import { TIMELINE_STATUS_BADGES } from '@/constants/proposal-status';
+import { TimelineStatus } from '@/types';
 import { 
+  Calendar, 
+  Clock, 
   CheckCircle2, 
-  Ban, 
-  HelpCircle, 
-  FolderMinus, 
-  ChevronRight, 
-  Layers, 
-  ShieldAlert,
+  AlertCircle, 
+  Lock, 
+  Sparkles,
   ArrowRight,
-  Sparkles
+  Route
 } from 'lucide-react';
 
 /* ==========================================================================
-   Section Header Component
+   Timeline Item Component
    ========================================================================== */
-interface SectionHeaderProps {
-  title: string;
-  subtitle: string;
-  badge?: string;
-  icon?: React.ReactNode;
+interface TimelineItemProps {
+  key?: React.Key;
+  phase: string;
+  duration: string;
+  activities: string;
+  index: number;
+  total: number;
 }
 
-export function SectionHeader({ title, subtitle, badge, icon }: SectionHeaderProps) {
+export function TimelineItem({
+  phase,
+  duration,
+  activities,
+  index,
+  total,
+}: TimelineItemProps) {
+  // Determine status dynamically based on index to retain the beautiful premium UX styling
+  const status = index === 0 ? 'COMPLETED' : index === 1 ? 'CURRENT' : index === total - 1 ? 'LOCKED' : 'UPCOMING';
+  const rawStatus = status.toUpperCase();
+  const badgeConfig = TIMELINE_STATUS_BADGES[rawStatus as TimelineStatus] || {
+    label: rawStatus,
+    className: 'bg-muted/10 text-muted-foreground border-muted/20',
+  };
+
+  const isCompleted = rawStatus === 'COMPLETED';
+  const isCurrent = rawStatus === 'CURRENT';
+  const isLocked = rawStatus === 'LOCKED';
+
+  // Determine dot visuals
+  const getDotStyles = () => {
+    if (isCompleted) {
+      return {
+        dotClass: 'bg-emerald-500 border-emerald-500 text-white shadow-[0_0_12px_rgba(16,185,129,0.3)]',
+        icon: <CheckCircle2 className="h-4.5 w-4.5" />,
+      };
+    }
+    if (isCurrent) {
+      return {
+        dotClass: 'bg-primary border-primary text-primary-foreground shadow-[0_0_15px_rgba(var(--primary-rgb,59,130,246),0.5)] animate-pulse',
+        icon: <Sparkles className="h-4.5 w-4.5" />,
+      };
+    }
+    if (isLocked) {
+      return {
+        dotClass: 'bg-background border-border text-muted-foreground/40',
+        icon: <Lock className="h-3.5 w-3.5" />,
+      };
+    }
+    return {
+      dotClass: 'bg-background border-border text-muted-foreground',
+      icon: <Clock className="h-4 w-4" />,
+    };
+  };
+
+  const dotVisuals = getDotStyles();
+
   return (
-    <div className="space-y-3 font-sans">
-      <div className="flex items-center gap-2">
-        {badge && (
-          <Badge variant="brand" size="sm" className="font-mono tracking-wider">
-            {badge}
-          </Badge>
-        )}
+    <motion.div
+      initial={{ opacity: 0, x: -15 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true, margin: '-20px' }}
+      transition={{ duration: 0.4, delay: index * 0.1 }}
+      className="relative pl-10 md:pl-12 pb-10 last:pb-2 font-sans group"
+    >
+      {/* Connector Line */}
+      {index < total - 1 && (
+        <div className="absolute left-[17px] top-8 bottom-0 w-[2px] bg-border/40 group-hover:bg-primary/20 transition-colors" />
+      )}
+
+      {/* Decorative Dot Icon */}
+      <div className={`absolute left-0 top-1 h-9 w-9 rounded-full border-2 flex items-center justify-center transition-all duration-200 ${dotVisuals.dotClass}`}>
+        {dotVisuals.icon}
       </div>
-      <div className="flex items-start gap-3">
-        {icon && (
-          <div className="h-10 w-10 rounded-button bg-primary/10 text-primary flex items-center justify-center border border-primary/20 shrink-0">
-            {icon}
+
+      {/* Card Wrapper for Timeline Metadata */}
+      <Card className={`p-5 md:p-6 border transition-all duration-200 rounded-card ${
+        isCurrent 
+          ? 'border-primary/30 bg-primary/2 dark:bg-primary/1 shadow-medium hover:border-primary/40' 
+          : 'border-border/40 bg-card/40 hover:bg-card/75 hover:border-border/60 hover:shadow-sm'
+       }`}>
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-3">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2 flex-wrap">
+              <Badge variant={isCompleted ? 'success' : isCurrent ? 'brand' : 'neutral'} size="sm" className={badgeConfig.className}>
+                {badgeConfig.label.toUpperCase()}
+              </Badge>
+              {isCurrent && (
+                <span className="text-[10px] uppercase font-bold text-primary font-mono tracking-wider flex items-center gap-1 animate-pulse">
+                  <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+                  Active Release Phase
+                </span>
+              )}
+            </div>
+            <H4 className="text-sm font-bold text-foreground leading-snug group-hover:text-primary transition-colors">
+              {phase}
+            </H4>
           </div>
-        )}
-        <div className="space-y-1.5 min-w-0">
-          <H2 className="text-foreground font-bold tracking-tight">{title}</H2>
-          <p className="text-sm text-muted-foreground leading-relaxed max-w-2xl">{subtitle}</p>
+
+          {/* Schedule pills */}
+          <div className="flex flex-col sm:items-end gap-1 font-mono text-[11px] shrink-0 text-muted-foreground">
+            <span className="flex items-center gap-1 text-primary font-semibold">
+              <Calendar className="h-3 w-3" />
+              {duration}
+            </span>
+          </div>
         </div>
-      </div>
-    </div>
+
+        {activities && (
+          <p className="text-xs text-muted-foreground leading-relaxed max-w-3xl font-sans">
+            {activities}
+          </p>
+        )}
+      </Card>
+    </motion.div>
   );
 }
 
 /* ==========================================================================
-   Empty State Component
+   Main Timeline Section Component
    ========================================================================== */
-interface EmptyStateProps {
-  title: string;
-  description: string;
-  icon?: React.ReactNode;
-}
-
-export function EmptyState({ title, description, icon }: EmptyStateProps) {
-  return (
-    <Card className="p-10 border border-dashed border-border/60 bg-muted/5 flex flex-col items-center justify-center text-center space-y-4 font-sans rounded-card">
-      <div className="h-12 w-12 rounded-full bg-muted/30 text-muted-foreground flex items-center justify-center border border-border/10">
-        {icon || <HelpCircle className="h-6 w-6" />}
-      </div>
-      <div className="space-y-1 max-w-sm">
-        <H4 className="text-sm font-semibold text-foreground">{title}</H4>
-        <p className="text-xs text-muted-foreground leading-relaxed">{description}</p>
-      </div>
-    </Card>
-  );
-}
-
-/* ==========================================================================
-   Main Scope Section Wrapper Component
-   ========================================================================== */
-interface ScopeSectionProps {
+interface TimelineSectionProps {
   onNext: () => void;
   onBack: () => void;
 }
 
-export function ScopeSection({ onNext, onBack }: ScopeSectionProps) {
+export function TimelineSection({ onNext, onBack }: TimelineSectionProps) {
   const { proposal } = useTheme();
-  
+
   if (!proposal) return null;
 
+  const executionTimeline = proposal?.projectTimeline || [];
+
   return (
-    <div className="space-y-12 animate-in fade-in duration-300">
-      {/* 1. Scope of Work Core Section */}
-      <div className="space-y-6">
-        <SectionHeader
-          title="Scope of Work"
-          subtitle="A granular breakdown of the specific project boundaries and product architecture standards included in our service agreement."
-          badge="PROJECT SCOPE"
-          icon={<Layers className="h-5 w-5 text-primary" />}
+    <div className="space-y-8 animate-in fade-in duration-300">
+      <SectionHeader
+        title="Project Timeline & Milestones"
+        subtitle="A sequential roadmap tracking development phases, agile sprints, staging integrations, and our core launch schedule."
+        badge="ROADMAP"
+        icon={<Route className="h-5 w-5 text-primary" />}
+      />
+
+      {executionTimeline.length === 0 ? (
+        <EmptyState
+          title="No milestones currently scheduled"
+          description="The active project file has no designated execution milestones."
         />
-
-        {!proposal.scopeOfWork || !Array.isArray(proposal.scopeOfWork) || proposal.scopeOfWork.length === 0 ? (
-          <EmptyState
-            title="No active scope items defined"
-            description="The current proposal dataset does not contain active, in-scope development elements."
-            icon={<FolderMinus className="h-6 w-6" />}
-          />
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {proposal.scopeOfWork.map((item: any, idx: number) => (
-              <Card key={idx} className="p-5 border border-border/40 bg-card/50 hover:border-primary/20 hover:shadow-sm transition-all duration-200 rounded-card font-sans flex items-start gap-3">
-                <div className="h-6 w-6 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0 mt-0.5">
-                  <CheckCircle2 className="h-4 w-4" />
-                </div>
-                <div className="space-y-1">
-                  <H4 className="text-sm font-semibold text-foreground">{item.title}</H4>
-                  <p className="text-xs text-muted-foreground leading-relaxed">{item.description}</p>
-                </div>
-              </Card>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* 2. Exclusions Section (Out of Scope) */}
-      {proposal.outOfScope && Array.isArray(proposal.outOfScope) && proposal.outOfScope.length > 0 && (
-        <div className="space-y-6 pt-4 border-t border-border/10">
-          <SectionHeader
-            title="Exclusions & Boundaries"
-            subtitle="To safeguard engineering timelines and budget compliance, the following items are explicitly omitted from this current agreement scope."
-            badge="EXCLUSIONS"
-            icon={<Ban className="h-5 w-5 text-amber-500" />}
-          />
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {proposal.outOfScope.map((item: any, idx: number) => (
-              <Card key={idx} className="p-5 border border-amber-500/10 bg-amber-500/2 hover:border-amber-500/20 transition-all duration-200 rounded-card font-sans flex items-start gap-3">
-                <div className="h-6 w-6 rounded-full bg-amber-500/10 text-amber-500 flex items-center justify-center shrink-0 mt-0.5">
-                  <Ban className="h-3.5 w-3.5" />
-                </div>
-                <div className="space-y-1">
-                  <H4 className="text-sm font-semibold text-foreground">{item.title}</H4>
-                  <p className="text-xs text-muted-foreground leading-relaxed">{item.description}</p>
-                </div>
-              </Card>
-            ))}
-          </div>
+      ) : (
+        <div className="pt-4 max-w-4xl mx-auto">
+          {executionTimeline.map((item: any, idx: number) => (
+            <TimelineItem
+              key={idx}
+              phase={item.phase || ''}
+              duration={item.duration || ''}
+              activities={item.activities || ''}
+              index={idx}
+              total={executionTimeline.length}
+            />
+          ))}
         </div>
       )}
 
-      {/* Bottom Navigation Controls */}
+      {/* Navigation Footer */}
       <Divider />
       <div className="flex justify-between items-center pt-2 font-sans">
         <Button 
@@ -162,13 +197,13 @@ export function ScopeSection({ onNext, onBack }: ScopeSectionProps) {
           onClick={onBack} 
           className="cursor-pointer h-10 px-5 flex items-center gap-2"
         >
-          Back to Overview
+          Back to Deliverables
         </Button>
         <Button 
           onClick={onNext} 
           className="cursor-pointer h-10 px-5 flex items-center gap-2 font-semibold"
         >
-          Continue to Deliverables
+          Continue to Collaboration
           <ArrowRight className="h-4 w-4" />
         </Button>
       </div>
