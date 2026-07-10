@@ -23,6 +23,24 @@ export interface AgreementInformation {
   datePrepared?: string;
 }
 
+export interface AgencyDetails {
+  agencyName?: string;
+  logo?: string;
+  website?: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+}
+
+export interface ClientDetails {
+  id?: string;
+  company?: string;
+  name?: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+}
+
 /**
  * Project Overview
  * Captures strategic project summaries and expected outcomes.
@@ -44,4 +62,6 @@ export interface Proposal {
   outOfScope?: string;
   deliverables?: any[];
   projectTimeline?: any[];
+  agency?: AgencyDetails;
+  client?: ClientDetails;
 }
