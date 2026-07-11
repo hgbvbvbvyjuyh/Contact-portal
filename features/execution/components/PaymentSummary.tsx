@@ -24,7 +24,7 @@ export function PaymentSummary({
 }: PaymentSummaryProps) {
   const serviceType = proposal?.agreementInformation?.serviceType || 'Client Proposal';
   const projectPrice = proposal?.agreementInformation?.projectPrice || 'N/A';
-  const paymentSchedule = proposal?.agreementInformation?.paymentSchedule || 'N/A';
+  const implementationTimeline = proposal?.agreementInformation?.timeline || '7 Business Days';
 
   // Resolve status based on isPaid state
   const currentStatus: SimulationStatus = isPaid ? 'Paid' : simulatedStatus;
@@ -67,10 +67,10 @@ export function PaymentSummary({
             </span>
           </div>
 
-          <div className="flex justify-between items-start py-1 gap-4">
-            <span className="text-muted-foreground font-medium shrink-0">Payment Terms</span>
-            <span className="font-sans text-xs text-right text-muted-foreground whitespace-pre-wrap">
-              {paymentSchedule}
+          <div className="flex justify-between items-center py-1">
+            <span className="text-muted-foreground font-medium">Implementation</span>
+            <span className="font-semibold text-foreground text-right">
+              {implementationTimeline}
             </span>
           </div>
 
