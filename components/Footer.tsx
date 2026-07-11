@@ -15,7 +15,7 @@ interface FooterProps extends React.HTMLAttributes<HTMLElement> {
 
 export function Footer({ agencyName, version = 'v1.0.0', className, ...props }: FooterProps) {
   const { brandConfig } = useTheme();
-  const activeAgencyName = agencyName || brandConfig.agencyName || 'Client Proposal & Onboarding Portal';
+  const activeAgencyName = agencyName || (brandConfig.agencyName && brandConfig.agencyName !== 'Client Proposal & Onboarding Portal' ? brandConfig.agencyName : 'Bilvo AI');
   const currentYear = new Date().getFullYear();
 
   return (
