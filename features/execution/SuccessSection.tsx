@@ -60,37 +60,31 @@ export function SuccessSection({
     {
       title: 'Proposal Completed',
       timeframe: 'Today',
-      description: 'Your signed agreement and initial payment are confirmed and recorded.',
+      description: 'Your signed agreement and initial payment have been successfully confirmed.',
       status: 'completed',
     },
     {
-      title: 'Project Setup & Coordination',
+      title: 'Project Onboarding',
       timeframe: 'Within 24 Hours',
-      description: 'We prepare your project portal, organize files, and set up our internal workspace.',
+      description: 'Our team prepares your workspace, configures your systems, and begins implementation planning.',
       status: 'current',
     },
     {
-      title: 'Kickoff & Strategy Session',
-      timeframe: 'Day 2',
-      description: 'We meet to align on details, clarify goals, and finalize your kickoff schedule.',
-      status: 'upcoming',
-    },
-    {
       title: 'Implementation Begins',
-      timeframe: 'Day 3+',
-      description: 'Our team begins build work and initial system configuration.',
+      timeframe: '',
+      description: 'We begin configuring, integrating, and deploying your AI systems according to the approved project scope.',
       status: 'upcoming',
     },
     {
       title: 'Regular Progress Reviews',
-      timeframe: 'Weekly',
-      description: 'You will receive weekly updates to review progress and upcoming tasks.',
+      timeframe: '',
+      description: "You'll receive ongoing progress updates and implementation reports throughout the project.",
       status: 'upcoming',
     },
     {
-      title: 'Final Delivery & Handoff',
-      timeframe: 'Launch Day',
-      description: 'We review everything together, hand over access, and officially launch.',
+      title: 'Project Launch',
+      timeframe: '',
+      description: 'Your AI systems are fully deployed, tested, and actively supporting your business operations.',
       status: 'upcoming',
     },
   ];
@@ -163,7 +157,7 @@ export function SuccessSection({
           </div>
           <div className="space-y-0.5">
             <div className="text-xs font-bold text-foreground">Onboarding Active</div>
-            <div className="text-[10px] text-muted-foreground font-mono font-medium">Kickoff Scheduled: {getKickoffDateFormatted()}</div>
+            <div className="text-[10px] text-muted-foreground font-mono font-medium">Onboarding Begins Within 24 Hours</div>
           </div>
         </Card>
       </div>
@@ -213,9 +207,11 @@ export function SuccessSection({
                     <span className="text-xs font-bold text-foreground group-hover:text-primary transition-colors">
                       {step.title}
                     </span>
-                    <Badge variant={step.status === 'completed' ? 'success' : step.status === 'current' ? 'brand' : 'neutral'} size="sm">
-                      {step.timeframe}
-                    </Badge>
+                    {step.timeframe && (
+                      <Badge variant={step.status === 'completed' ? 'success' : step.status === 'current' ? 'brand' : 'neutral'} size="sm">
+                        {step.timeframe}
+                      </Badge>
+                    )}
                   </div>
                   <p className="text-xs text-muted-foreground leading-relaxed max-w-md font-sans">
                     {step.description}
