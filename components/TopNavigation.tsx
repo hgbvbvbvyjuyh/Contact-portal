@@ -12,10 +12,8 @@ import {
   HelpCircle,
   Sparkles,
   X,
-  Mail,
-  FileCheck2,
-  Lock,
-  MessageSquare
+  ChevronDown,
+  ChevronUp
 } from 'lucide-react';
 
 interface TopNavigationProps {
@@ -23,9 +21,41 @@ interface TopNavigationProps {
   onHelpClick?: () => void;
 }
 
+const FAQS = [
+  {
+    question: "What happens after I sign the proposal?",
+    answer: "Once you sign the agreement, we'll begin your onboarding process, confirm any remaining project details, and prepare your implementation. You'll receive updates throughout the project."
+  },
+  {
+    question: "When do I make the payment?",
+    answer: "Payment is requested only after you sign the proposal. Your payment schedule is shown inside the Investment & Payment Terms section of this proposal."
+  },
+  {
+    question: "When will the project begin?",
+    answer: "Implementation begins after we receive your signed agreement, required business information, and any necessary account access. Our team starts onboarding within 24 hours."
+  },
+  {
+    question: "Will I receive project updates?",
+    answer: "Yes. We'll keep you informed throughout the implementation process and provide regular progress updates until your systems are fully operational."
+  },
+  {
+    question: "Can I request changes before signing?",
+    answer: "Absolutely. If anything needs clarification or adjustment, let us know before signing. We'll review your request together to ensure the proposal matches your requirements."
+  },
+  {
+    question: "What happens after the systems are launched?",
+    answer: "Bilvo AI continues managing, monitoring, optimizing, and supporting your AI systems as part of our ongoing partnership. We don't simply deliver a project—we help you operate and improve it over time."
+  },
+  {
+    question: "Who do I contact if I have a question?",
+    answer: "Simply reply to any of our emails or contact the Bilvo AI team. We'll be happy to assist you throughout your partnership."
+  }
+];
+
 export function TopNavigation({ status = 'viewed', onHelpClick }: TopNavigationProps) {
   const { brandConfig } = useTheme();
   const [isHelpOpen, setIsHelpOpen] = useState(false);
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
   const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -80,7 +110,7 @@ export function TopNavigation({ status = 'viewed', onHelpClick }: TopNavigationP
               {brandConfig.agencyName === 'Client Proposal & Onboarding Portal' ? 'Project Proposal & Agreement' : (brandConfig.agencyName || 'Project Proposal & Agreement')}
               <span className="hidden lg:inline-flex items-center gap-1 text-[9px] font-bold text-primary bg-primary/5 border border-primary/15 px-2 py-0.5 rounded-badge tracking-wider uppercase">
                 <Sparkles className="h-2 w-2" />
-                White-Labeled
+                Ready For Review
               </span>
             </h1>
             <p className="text-[10px] text-muted-foreground font-sans leading-normal max-w-sm sm:max-w-md md:max-w-xl">
@@ -119,67 +149,59 @@ export function TopNavigation({ status = 'viewed', onHelpClick }: TopNavigationP
           aria-labelledby="help-dialog-title"
         >
           <div 
-            className="relative w-full max-w-lg rounded-card border border-border bg-card p-6 shadow-high space-y-6 animate-in zoom-in-95 duration-200"
+            className="relative w-full max-w-xl rounded-card border border-border bg-card p-6 shadow-high space-y-4 animate-in zoom-in-95 duration-200 flex flex-col max-h-[90vh]"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="flex items-center justify-between pb-3 border-b border-border/40">
-              <div className="flex items-center gap-2 text-primary">
-                <HelpCircle className="h-5 w-5" />
+            <div className="flex items-start justify-between pb-3 border-b border-border/40">
+              <div className="space-y-1">
                 <h2 id="help-dialog-title" className="text-base font-bold text-foreground">
-                  Portal Support & FAQ
+                  Frequently Asked Questions
                 </h2>
+                <p className="text-xs text-muted-foreground leading-normal">
+                  Answers to the most common questions about your proposal and partnership with Bilvo AI.
+                </p>
               </div>
               <button 
                 onClick={() => setIsHelpOpen(false)}
-                className="h-8 w-8 rounded-full hover:bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground cursor-pointer transition-all duration-150"
+                className="h-8 w-8 rounded-full hover:bg-muted flex items-center justify-center text-muted-foreground hover:text-foreground cursor-pointer transition-all duration-150 shrink-0 ml-4"
                 aria-label="Close help dialog"
               >
                 <X className="h-4.5 w-4.5" />
               </button>
             </div>
 
-            {/* Content Q&A */}
-            <div className="space-y-4 max-h-[320px] overflow-y-auto pr-1">
-              <div className="space-y-1">
-                <h3 className="text-xs font-bold text-foreground flex items-center gap-1.5">
-                  <FileCheck2 className="h-3.5 w-3.5 text-brand-blue" />
-                  How do I sign the agreement?
-                </h3>
-                <p className="text-xs text-muted-foreground leading-relaxed pl-5 font-sans">
-                  Review the proposal sections. Once you reach the <strong className="text-foreground font-medium">Acceptance & E-Signature</strong> step, enter your full name in the signature field to digitally sign.
-                </p>
-              </div>
-
-              <div className="space-y-1">
-                <h3 className="text-xs font-bold text-foreground flex items-center gap-1.5">
-                  <Lock className="h-3.5 w-3.5 text-brand-blue" />
-                  Is my payment secure?
-                </h3>
-                <p className="text-xs text-muted-foreground leading-relaxed pl-5 font-sans">
-                  Yes, absolutely. We support verified bank wires and encrypted wallet transfers with clear transaction reference matching to protect your payment.
-                </p>
-              </div>
-
-              <div className="space-y-1">
-                <h3 className="text-xs font-bold text-foreground flex items-center gap-1.5">
-                  <MessageSquare className="h-3.5 w-3.5 text-brand-blue" />
-                  What happens after I submit the deposit?
-                </h3>
-                <p className="text-xs text-muted-foreground leading-relaxed pl-5 font-sans">
-                  Our system instantly locks in your kickoff schedule and prepares your project resources. You will receive onboarding materials within 24 hours.
-                </p>
-              </div>
-            </div>
-
-            {/* Direct Contact */}
-            <div className="p-4 rounded-lg bg-primary/5 border border-primary/10 flex items-center gap-3">
-              <Mail className="h-5 w-5 text-primary shrink-0" />
-              <div className="space-y-0.5">
-                <div className="text-[10px] font-bold text-primary font-mono uppercase tracking-wider">Direct Client Desk</div>
-                <div className="text-xs text-foreground font-semibold">support@agency.design</div>
-                <div className="text-[10px] text-muted-foreground font-sans">Typical response time: Under 2 hours</div>
-              </div>
+            {/* Content Q&A Accordion */}
+            <div className="space-y-2 overflow-y-auto pr-1 flex-1 py-1">
+              {FAQS.map((faq, index) => {
+                const isExpanded = expandedIndex === index;
+                return (
+                  <div 
+                    key={index} 
+                    className="border border-border/50 rounded-lg overflow-hidden bg-muted/20 hover:bg-muted/30 transition-all duration-200"
+                  >
+                    <button
+                      onClick={() => setExpandedIndex(isExpanded ? null : index)}
+                      className="w-full flex items-center justify-between p-3.5 text-left font-semibold text-xs text-foreground hover:text-primary transition-colors focus:outline-none"
+                      aria-expanded={isExpanded}
+                    >
+                      <span className="pr-4 leading-snug">{faq.question}</span>
+                      {isExpanded ? (
+                        <ChevronUp className="h-4 w-4 text-muted-foreground shrink-0 transition-transform duration-200" />
+                      ) : (
+                        <ChevronDown className="h-4 w-4 text-muted-foreground shrink-0 transition-transform duration-200" />
+                      )}
+                    </button>
+                    {isExpanded && (
+                      <div className="px-3.5 pb-4 pt-1 border-t border-border/30 bg-card animate-in fade-in slide-in-from-top-1 duration-200">
+                        <p className="text-xs text-muted-foreground leading-relaxed font-sans">
+                          {faq.answer}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>
