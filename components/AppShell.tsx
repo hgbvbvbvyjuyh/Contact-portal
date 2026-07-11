@@ -21,7 +21,8 @@ import {
   CalendarDays,
   Check,
   FileCheck2,
-  LockKeyhole
+  LockKeyhole,
+  Building2
 } from 'lucide-react';
 
 interface AppShellProps {
@@ -55,17 +56,60 @@ export function AppShell({
     onStepChange?.(stepId);
   };
 
-  // Extract from projectTimeline
-  const finalMilestone = proposal?.projectTimeline && proposal.projectTimeline.length > 0
-    ? proposal.projectTimeline[proposal.projectTimeline.length - 1]
-    : null;
-  const targetLaunchDate = finalMilestone?.dueDate || 'N/A';
+  // Calculate Estimated Completion Date
+  const getEstimatedCompletionDate = () => {
+    const datePrepared = proposal?.agreementInformation?.datePrepared;
+    const timeline = proposal?.agreementInformation?.timeline;
+
+    if (!timeline) {
+      return 'Based on Project Timeline';
+    }
+
+    if (!datePrepared) {
+      return 'Based on Project Timeline';
+    }
+
+    const baseDate = new Date(datePrepared);
+    if (isNaN(baseDate.getTime())) {
+      return 'Based on Project Timeline';
+    }
+
+    // Match patterns like "5 Weeks", "7 Business Days", "1 Month"
+    const match = timeline.match(/(\d+)\s*(business\s+day|day|week|month|year)s?/i);
+    if (!match) {
+      return 'Based on Project Timeline';
+    }
+
+    const amount = parseInt(match[1], 10);
+    const unit = match[2].toLowerCase();
+
+    const targetDate = new Date(baseDate);
+    if (unit.includes('week')) {
+      targetDate.setDate(targetDate.getDate() + amount * 7);
+    } else if (unit.includes('day')) {
+      targetDate.setDate(targetDate.getDate() + amount);
+    } else if (unit.includes('month')) {
+      targetDate.setMonth(targetDate.getMonth() + amount);
+    } else if (unit.includes('year')) {
+      targetDate.setFullYear(targetDate.getFullYear() + amount);
+    } else {
+      return 'Based on Project Timeline';
+    }
+
+    return targetDate.toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric'
+    });
+  };
+
+  const estimatedCompletionDate = getEstimatedCompletionDate();
 
   // 3. Placeholder Sidebar Panels
   const renderSidebarContent = () => (
     <div className="space-y-6">
-      {/* Card 1: Project Summary */}
-      <PlaceholderCard title="Project Summary" badge="Proposal" badgeVariant="info">
+      {/* Card 1: Project Overview */}
+      <PlaceholderCard title="Project Overview" badge="Proposal" badgeVariant="info">
         <div className="space-y-2.5">
           <div className="flex items-start gap-2.5">
             <Briefcase className="h-4 w-4 text-primary shrink-0 mt-0.5" />
@@ -76,24 +120,22 @@ export function AppShell({
           </div>
           <div className="flex items-center gap-2 text-[11px] text-muted-foreground pt-1">
             <CalendarDays className="h-3.5 w-3.5" />
-            <span>Target Launch: {targetLaunchDate}</span>
+            <span>Estimated Completion: {estimatedCompletionDate}</span>
           </div>
         </div>
       </PlaceholderCard>
 
-      {/* Card 2: Client Information */}
-      <PlaceholderCard title="Client Information">
+      {/* Card 2: Implementation Partner */}
+      <PlaceholderCard title="Implementation Partner">
         <div className="space-y-2">
           <div className="flex items-start gap-2.5">
-            <User className="h-4 w-4 text-primary shrink-0 mt-0.5" />
+            <Building2 className="h-4 w-4 text-primary shrink-0 mt-0.5" />
             <div>
-              <p className="font-semibold text-foreground">
-                {proposal?.agreementInformation?.clientName || 'The Client'}
+              <p className="font-semibold text-foreground">Bilvo AI</p>
+              <p className="text-[11px] text-muted-foreground font-mono">partner@bilvo.ai</p>
+              <p className="text-[11px] text-muted-foreground/80 mt-1.5 leading-relaxed">
+                Your dedicated implementation partner throughout this project.
               </p>
-              {proposal?.agreementInformation?.companyName && (
-                <p className="text-xs text-muted-foreground">{proposal.agreementInformation.companyName}</p>
-              )}
-              <p className="text-[11px] text-muted-foreground">{proposal?.agreementInformation?.email || 'N/A'}</p>
             </div>
           </div>
         </div>
@@ -143,17 +185,28 @@ export function AppShell({
         </div>
       </PlaceholderCard>
 
-      {/* Card 4: Support Contact */}
-      <PlaceholderCard title="Support Contact">
-        <div className="space-y-2.5">
-          <div className="flex items-start gap-2.5">
-            <LifeBuoy className="h-4 w-4 text-primary shrink-0 mt-0.5" />
-            <div>
-              <p className="font-semibold text-foreground">Premium Client Desk</p>
-              <p className="text-[11px] text-muted-foreground">{proposal?.agreementInformation?.email || 'N/A'}</p>
-            </div>
-          </div>
-        </div>
+      {/* Card 4: Why Clients Choose Bilvo AI */}
+      <PlaceholderCard title="Why Clients Choose Bilvo AI">
+        <ul className="space-y-2.5">
+          <li className="flex items-start gap-2.5">
+            <Check className="h-4 w-4 text-emerald-500 dark:text-emerald-400 shrink-0 mt-0.5" />
+            <span className="text-xs text-muted-foreground leading-normal font-sans">
+              Dedicated AI implementation from start to finish.
+            </span>
+          </li>
+          <li className="flex items-start gap-2.5">
+            <Check className="h-4 w-4 text-emerald-500 dark:text-emerald-400 shrink-0 mt-0.5" />
+            <span className="text-xs text-muted-foreground leading-normal font-sans">
+              Ongoing optimization and continuous system improvements.
+            </span>
+          </li>
+          <li className="flex items-start gap-2.5">
+            <Check className="h-4 w-4 text-emerald-500 dark:text-emerald-400 shrink-0 mt-0.5" />
+            <span className="text-xs text-muted-foreground leading-normal font-sans">
+              Long-term partnership focused on measurable business growth.
+            </span>
+          </li>
+        </ul>
       </PlaceholderCard>
     </div>
   );
